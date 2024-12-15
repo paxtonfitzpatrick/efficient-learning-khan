@@ -1504,7 +1504,7 @@ Because the typical asymptotic $\chi^2_d$ approximation of the null distribution
 For each of 1,000 bootstraps, we used the fitted null model to simulate a sample of observations of equal size to our original sample.
 We then re-fit both the null and full models to this simulated sample and compared them via an LRT.
 This yielded a distribution of $\lambda_{LR}$ statistics we may expect to observe under our null hypothesis.
-Following~\citet{Ewen03}, we computed a corrected $p$-value for our observed $\lambda_{LR}$ as $\frac{r}{n}$, where $r$ is the number of simulated model comparisons that yielded a $\lambda_{LR}$ greater than or equal to our observed value and $n$ is the number of simulations we ran (1,000).
+We computed a corrected $p$-value for our observed $\lambda_{LR}$ as $\frac{r+1}{n+1}$, where $r$ is the number of simulated model comparisons that yielded a $\lambda_{LR}$ greater than our observed value and $n$ is the number of simulations we ran (1,000).
 
 \subsubsection*{Estimating the ``smoothness'' of knowledge}\label{subsec:smoothness}
 
