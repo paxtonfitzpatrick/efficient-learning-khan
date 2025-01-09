@@ -1369,7 +1369,7 @@ to the knowledge estimate.
 
 In the set of analyses reported in Figure~\ref{fig:predictions}, we assessed
 whether estimates of participants' knowledge at the embedding coordinates of
-individual quiz questions could be used to reliably predict their ability to
+individual quiz questions could be used to reliably predict their abilities to
 correctly answer those questions. In essence, we treated each question a given
 participant answered on a given quiz as a ``lecture'' consisting of a single
 timepoint, and used Equation~\ref{eqn:prop} to estimate the participant's
@@ -1600,7 +1600,7 @@ inverting an arbitrary coordinate in the embedding space might result in
 negative-valued vectors, which are incompatible with the topic modeling
 framework. To protect against this issue, we log-transformed the topic vectors
 prior to embedding them in the 2D space. When we inverted the embedded vectors
-(e.g., to estimate topic vectors or word clouds, as in
+(e.g., to estimate topic vectors for word clouds, as in
 Fig.~\ref{fig:knowledge-maps}C), we passed the inverted (log-transformed)
 values through the exponential function to obtain a vector of non-negative
 values, and normalized them to sum to one.
