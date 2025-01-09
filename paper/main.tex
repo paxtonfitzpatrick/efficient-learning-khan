@@ -605,137 +605,8 @@ Fig.~\ref{fig:predictions}, bottom rows). This test was intended to assess the
 could extend across the content areas of the two lectures. When computing these
 knowledge estimates, we used a rebalancing procedure to ensure that (for a given
 participant and quiz) the knowledge estimates for correctly and incorrectly
-answered questions were based on the same proportion of correctly answered
+answered questions were computed from the same proportion of correctly answered
 questions (see~\nameref{subsec:glmm}).
-
-%In performing these analyses, our null hypothesis is that the knowledge
-%estimates we compute based on the quiz questions' embedding coordinates do
-%\textit{not} provide useful information about participants' abilities to answer
-%those questions. In other words, our estimates of participants' knowledge
-%for questions they answered correctly should (on average) be
-%
-%In other words, since our knowledge estimates are computed
-%as a weighted proportion-correct score (where each held-in question's weight reflects
-%its embedding-space distance from the held-out question; see
-%Eqn.~\ref{eqn:prop}), if these weights are uninformative (e.g., randomly
-%distributed), then we should expect that, on average,
-%
-%% note that with correction, pcorrect of held in questions is now $\frac{n - 1}{q - 1}$ regardless of held-out question's label
-%
-%==================================
-%
-%In performing these analyses, our null hypothesis is that the knowledge
-%estimates we compute based on the quiz questions' embedding coordinates do
-%\textit{not} provide useful information about participants' abilities to answer
-%those questions. What result might we expect to see if this is the case? To
-%gain an intuition for this scenario, consider the expected outcome if we
-%carried out these same analyses using a simple proportion-correct measure in
-%lieu of our knowledge estimates. Suppose a participant correctly answered $n$
-%out of $q$ questions on a given quiz. If we hold out a single
-%\textit{correctly} answered question, the proportion of remaining questions
-%answered correctly would be $\frac{n - 1}{q - 1}$. Whereas if we hold out a
-%single \textit{incorrectly} answered question, the proportion of remaining
-%questions answered correctly would be $\frac{n}{q - 1}$. In this way, the
-%proportion of correctly answered remaining questions is always \textit{lower}
-%when the held-out question was answered correctly than when it was answered
-%incorrectly. Because our knowledge estimates are computed as a weighted version
-%of this same proportion-correct score (where each held-in question's weight
-%reflects its embedding-space distance from the held-out question; see
-%Eqn.~\ref{eqn:prop}), if these weights are uninformative (e.g., randomly
-%distributed), then we should expect to see this same inverse relationship
-%between estimated knowledge and performance, on average. On the other hand, if
-%the spatial relationships among the quiz questions' embeddings \textit{are}
-%predictive of participants' knowledge about the questions' content, then we
-%would expect \textit{higher} estimated knowledge for held-out correctly (versus
-%incorrectly) answered questions.
-%
-%Before presenting our results, it is worth considering three possible
-%explanations of why a participant might answer a given question correctly or
-%incorrectly. One possibility is that the participant simply \textit{guessed}
-%the answer. A second is that they selected the incorrect answer by mistake,
-%despite ``knowing'' the correct answer (or vice versa). In both of these
-%scenarios, the participant's knowledge about the question's content should be
-%uninformative about their observed response. A third possibility is that the
-%participant's response reflects their \textit{actual} knowledge about the
-%question's content. In this case, we \textit{might} expect to see a positive
-%relationship between the participant's knowledge and their likelihood of
-%answering the question correctly. However, in order to see this positive
-%relationship, the participant's knowledge must be structured in a way that is
-%reflected (at least partially) by the embedding space. In other words, if the
-%participant's performance reflects their true knowledge, but our text embedding
-%space does not sufficiently capture the structure of that knowledge, then the
-%knowledge estimates we generate will not be predictive of the participant's
-%performance. In the extreme, if the embedding space is completely unstructured
-%with respect to the content of the quiz questions, then we would expect to see
-%the negative relationship between estimated knowledge and performance that we
-%described above.
-
-%%\textbf{NOTES FOR REWRITING RESULTS}
-%%\begin{itemize}
-%%    \item all questions
-%%    \begin{itemize}
-%%        \item quiz 1: odds ratio $(OR) = 8.126$, 95\%\ $\textnormal{CI} = [3.116,\ 20.123]$, likelihood-ratio test statistic $(\lambda_{LR}) = 17.002,\ p < 0.001$
-%%        \item quiz 2: $OR = 14.902,\ 95\%\ \textnormal{CI} = [4.976,\ 39.807],\ \lambda_{LR} = 25.408,\ p < 0.001$
-%%        \item quiz 3: $OR = 37.409,\ 95\%\ \textnormal{CI} = [10.425,\ 107.145],\ \lambda_{LR} = 40.948,\ p < 0.001$
-%%        \item we can reliably predict success on individual held-out questions regardless of level of knowledge; predictive power grows as participants' knowledge space becomes better defined/structured
-%%    \end{itemize}
-%%    \item within-lecture
-%%    \begin{itemize}
-%%        \item quiz 1, lecture 1: $OR = 15.934,\ 95\%\ \textnormal{CI} = [5.173,\ 38.005],\ \lambda_{LR} = 40.971,\ p < 0.001$
-%%        \item quiz 1, lecture 2: $OR = 9.775,\ 95\%\ \textnormal{CI} = [2.93,\ 25.08],\ \lambda_{LR} = 13.924,\ p < 0.001$
-%%        \item quiz 2, lecture 1: $OR = 35.126,\ 95\%\ \textnormal{CI} = [5.113,\ 123.868],\ \lambda_{LR} = 32.251,\ p < 0.001$
-%%        \item quiz 2, lecture 2: $OR = 4.717,\ 95\%\ \textnormal{CI} = [2.021,\ 9.844],\ \lambda_{LR} = 16.788,\ p < 0.001$
-%%        \item quiz 3, lecture 1: $OR = 2.485,\ 95\%\ \textnormal{CI} = [0.724,\ 8.366],\ \lambda_{LR} = 1.984,\ p = 0.170$
-%%        \item quiz 3, lecture 2: $OR = 16.902,\ 95\%\ \textnormal{CI} = [3.353,\ 53.265],\ \lambda_{LR} = 23.233,\ p < 0.001$
-%%        \item can successfully distinguish between knowledge for questions about different content within a lecture, but may be susceptible to ceiling effects (considering questions included in model, across-participants avg prop correct on quiz3, lecture-1 questions was highest of any set of questions we analyzed (mean: 0.795, std: 0.236)
-%%    \end{itemize}
-%%    \item across-lecture
-%%    \begin{itemize}
-%%        \item quiz 1, lecture 1: $OR = 1.896,\ 95\%\ \textnormal{CI} = [0.419,\ 9.088],\ \lambda_{LR} = 0.712,\ p = 0.404$
-%%        \item quiz 1, lecture 2: $OR = 1.522,\ 95\%\ \textnormal{CI} = [0.332,\ 6.835],\ \lambda_{LR} = 0.286,\ p = 0.611$
-%%        \item quiz 2, lecture 1: $OR = 3.49,\ 95\%\ \textnormal{CI} = [0.739,\ 12.849],\ \lambda_{LR} = 3.266,\ p = 0.083$
-%%        \item quiz 2, lecture 2: $OR = 2.199,\ 95\%\ \textnormal{CI} = [0.711,\ 5.623],\ \lambda_{LR} = 2.304,\ p = 0.141$
-%%        \item quiz 3, lecture 1: $OR = 11.294,\ 95\%\ \textnormal{CI} = [1.375,\ 47.744],\ \lambda_{LR} = 10.396,\ p < 0.001$
-%%        \item quiz 3, lecture 2: $OR = 7.302,\ 95\%\ \textnormal{CI} = [1.077,\ 44.879],\ \lambda_{LR} = 4.708,\ p = 0.038$
-%%        \item ability to generalize across content areas depends on participants having structured knowledge about both (A) the content used to estimate knowledge, and (B) the content for which knowledge is estimated (quiz 1: have neither; quiz 2: have one but not the other; quiz 3: have both)
-%%    \end{itemize}
-%%\end{itemize}
-
-%When we fit a GLMM to estimates of participants' knowledge for each Quiz~1
-%question based on all other Quiz~1 questions, we observed an outcome consistent
-%with our null hypothesis: higher estimated knowledge at the embedding
-%coordinate of a held-out question was associated with a lower likelihood of
-%answering the question correctly (odds ratio $(OR) = 0.136$, likelihood-ratio
-%test statistic $(\lambda_{LR}) = 19.749$, 95\%\ $\textnormal{CI} = [14.352,\
-%26.545],\ p < 0.001$). This outcome suggests that our knowledge estimates do
-%\textit{not} provide useful information about participants' Quiz~1 performance
-%when we aggregated across all question content areas. We speculated that this
-%might either indicate that the knowledge estimates are uninformative in
-%general, or about Quiz~1 performance in particular. This would be expected, for
-%example, if participants were guessing about the answers to the Quiz~1
-%questions (prior to having watched either lecture). When we repeated this
-%analysis for Quizzes~2 and~3, we found that higher estimated knowledge
-%for a given question predicted a \textit{greater} likelihood of answering it correctly
-%(Quiz~2: $OR = 2.905,\ \lambda_{LR} = 17.333,\ 95\%\ \textnormal{CI} =
-%[14.966,\ 29.309],\ p = 0.001$; Quiz~3: $OR = 3.238,\ \lambda_{LR} = 6.882,\
-%95\%\ \textnormal{CI} = [6.228,\ 8.184],\ p = 0.016$). Taken together, these
-%results suggest that our knowledge estimates reliably predict participants'
-%performance on individual held-out quiz questions, but only after participants
-%have received at least some training.
-
-%When we fit a GLMM to estimates of participants' knowledge for each Quiz~1
-%question based on all other Quiz~1 questions, we found that higher estimated
-%knowledge for a given question predicted a greater likelihood of answering it
-%correctly (odds ratio $(OR) = 8.126$, 95\%\ $\textnormal{CI} = [3.116,\
-%20.123]$, likelihood-ratio test statistic $(\lambda_{LR}) = 17.002,\ p <
-%0.001$). This relationship held and appeared to strengthen when we repeated this
-%analysis for Quiz~2 ($OR = 14.902,\ 95\%\ \textnormal{CI} = [4.976,\ 39.807],\
-%\lambda_{LR} = 25.408,\ p < 0.001$), and again for Quiz~3 ($OR = 37.409,\ 95\%\
-%\textnormal{CI} = [10.425,\ 107.145],\ \lambda_{LR} = 40.948,\ p < 0.001$).
-%Taken together, these results suggest that our knowledge estimates reliably
-%predict participants' performance on individual questions when aggregated across
-%all quiz content, and that their predictive power increases as participants gain
-%additional knowledge about the content captured by the text embedding space.
 
 When we fit a GLMM to estimates of participants' knowledge for each Quiz~1
 question based on all other Quiz~1 questions, we found that higher estimated
@@ -782,15 +653,14 @@ question from a given participant's Quiz~3 responses and estimated their
 knowledge at its embedding coordinate using the remaining \textit{Four
 Fundamental Forces} questions they answered, for 90\% of participants, that
 estimate leveraged information about at most a single other question they were
-\textit{not} able to correctly answer. This broad homogeneity in participants' success on questions used to estimate their knowledge may have hurt our ability
+\textit{not} able to correctly answer. This broad homogeneity in participants'
+success on questions used to estimate their knowledge may have hurt our ability
 to accurately characterize the specific (and by Quiz~3, relatively few) aspects
 of the lecture content they did \textit{not} know about. Taken together, these
 results suggest that our knowledge estimates can reliably distinguish between
 questions about different content covered by a single lecture, provided there is
 sufficient diversity in participants' quiz responses to extract meaningful
 information about both what they know and what they do not know.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Finally, when we estimated participants' knowledge for each question about one
 lecture using their performance on questions (from the same quiz) about the
@@ -820,7 +690,7 @@ questions: $OR = 7.302,\ 95\%\ \textnormal{CI} = [1.077,\ 44.879],\
 \lambda_{LR} = 4.708,\ p = 0.038$). Taken together, these results suggest that
 our knowledge estimates can be used to predict participants' success across
 content areas once they have received some training on both the content about
-which their knowledge is estimated, and the content used to construct these
+which their knowledge is estimated and the content used to construct these
 estimates.
 
 That the knowledge predictions derived from the text embedding space reliably
