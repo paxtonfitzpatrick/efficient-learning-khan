@@ -1377,11 +1377,83 @@ knowledge for its embedding coordinate based on their performance on all
 \textit{other} questions they answered on that same quiz (``All questions'';
 Fig.~\ref{fig:predictions}, top row). Additionally, for each lecture-related
 question (i.e., excluding questions about general physics knowledge), we
-computed analogous knowledge estimates based on all other questions the
-participant answered on the same quiz about (1) the same lecture as the target
-question (``Within-lecture''; Fig.~\ref{fig:predictions}, middle rows), and (2)
-the other of the two lectures (``Across-lecture''; Fig.~\ref{fig:predictions},
+computed analogous knowledge estimates based on two different subsets of
+questions the participant answered on the same quiz: (1) all \textit{other}
+questions about the same lecture as the target question (``Within-lecture'';
+Fig.~\ref{fig:predictions}, middle rows), and (2) all questions about the other
+of the two lectures (``Across-lecture''; Fig.~\ref{fig:predictions},
 bottom rows).
+
+In performing these analyses, our null hypothesis is that the knowledge
+estimates we compute based on the quiz questions' embedding coordinates do
+\textit{not} provide useful information about participants' abilities to answer
+those questions---in other words, that there is no meaningful difference (on
+average) between the knowledge estimates we compute for questions participants
+answered correctly and those they answered incorrectly. Specifically, since we
+estimate knowledge for a given embedding coordinate as a weighted
+proportion-correct score (where each question's weight reflects its
+embedding-space distance from the target coordinate; see Eqn.~\ref{eqn:prop}),
+if these weights are uninformative (e.g., randomly distributed), then our
+estimates of participants' knowledge should be equivalent (on average) to the
+\textit{unweighted} proportion of correctly answered questions used to compute
+them. In general, for a given participant and quiz, this expected value (i.e.,
+that participant's proportion-correct score on that quiz) is the same for any
+coordinate in the embedding space (e.g., any lecture timepoint, quiz question,
+etc.). However, in the ``All questions'' and ``Within-lecture'' versions of the
+analyses shown in Figure~\ref{fig:predictions}, we estimate each participant's
+knowledge for each target question using all \textit{other} questions (or all
+\textit{other} questions about the same lecture) they answered on the same quiz.
+This introduces a systematic dependency between a participant's success on a
+target question and their proportion-correct score on the questions available to
+estimate their knowledge for it. For example, suppose a participant correctly
+answered $n$ out of $q$ questions on a given quiz. If we hold out a single
+\textit{correctly} answered question as the target, the proportion of remaining
+questions answered correctly would be $\frac{n - 1}{q - 1}$. Whereas if we hold
+out a single \textit{incorrectly} answered question, the proportion of remaining
+questions answered correctly would be $\frac{n}{q - 1}$. Thus, the proportion of
+correctly answered remaining questions (and therefore the null-hypothesized
+value of a knowledge estimate computed from them) is always \textit{lower} for
+target questions a participant answered correctly than for those they answered
+incorrectly.
+
+To correct for this baseline inverse relationship between a participant's
+success on a target question and their estimated knowledge for it, we used a
+rebalancing procedure that ensured our knowledge estimates for questions each
+participant answered correctly and incorrectly were computed from the
+\textit{same} proportion of correctly answered questions. For each target
+question on a given participant's quiz, we identified all remaining questions
+with the opposite ``correctness'' label (i.e., if the target question was
+answered correctly, we identified all remaining incorrectly answered questions,
+and vice versa). We then held out each of these opposite-label questions, in
+turn, along with the target question, and estimated the participant's knowledge
+for the target question using all \textit{other} remaining questions. Since each
+of these subsets of remaining questions was constructed by holding out one
+correctly answered question and one incorrectly answered question from the
+participant's quiz, if the participant correctly answered $n$ out of $q$
+questions total, then their proportion-correct score on each subset of questions
+used to estimate their knowledge for the target question is $\frac{n-1}{q-2}$,
+regardless of whether they answered the target question correctly or
+incorrectly. Finally, averaging over these per-subset knowledge estimates
+yielded a rebalanced estimate of the participant's knowledge for the target
+question that leveraged information from all remaining questions' embedding
+coordinates, but whose expected value under our null hypothesis was the same as
+that of each individual subset ($\frac{n-1}{q-2}$). By equalizing the
+null-hypothesized values of knowledge estimates for correctly and incorrectly
+answered questions, this procedure ensures that any meaningful relationships we
+observe between participants' estimated knowledge for individual quiz questions
+and their ability to answer them are attributable to the predictive power of the
+embedding-space distances used to weight questions' contributions to the
+knowledge estimates, rather than an artifact of our estimation procedure. Note
+that if a participant answered all or no questions on a given quiz correctly,
+their responses contained no opposite-label questions with which to perform this
+rebalancing, and we therefore excluded their data from our analyses for that
+quiz. We used this rebalancing procedure when constructing knowledge estimates
+for the ``All questions'' and ``Within-lecture'' versions of the analyses shown
+in Figure~\ref{fig:predictions}, but not for the ``Across-lecture'' analyses as,
+in this case, the target questions and the questions used to estimate
+participants' knowledge for them were drawn from different subsets of quiz
+questions (those about one lecture, and those about the other), and were
+therefore independent.
 
 In each version of this analysis (i.e., row in Fig.~\ref{fig:predictions}), and
 separately for each of the three quizzes (i.e., column in
