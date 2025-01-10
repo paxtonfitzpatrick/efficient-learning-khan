@@ -1404,17 +1404,17 @@ analyses shown in Figure~\ref{fig:predictions}, we estimate each participant's
 knowledge for each target question using all \textit{other} questions (or all
 \textit{other} questions about the same lecture) they answered on the same quiz.
 This introduces a systematic dependency between a participant's success on a
-target question and their proportion-correct score on the questions available to
-estimate their knowledge for it. For example, suppose a participant correctly
-answered $n$ out of $q$ questions on a given quiz. If we hold out a single
-\textit{correctly} answered question as the target, the proportion of remaining
-questions answered correctly would be $\frac{n - 1}{q - 1}$. Whereas if we hold
-out a single \textit{incorrectly} answered question, the proportion of remaining
-questions answered correctly would be $\frac{n}{q - 1}$. Thus, the proportion of
-correctly answered remaining questions (and therefore the null-hypothesized
-value of a knowledge estimate computed from them) is always \textit{lower} for
-target questions a participant answered correctly than for those they answered
-incorrectly.
+target question and their proportion-correct score on the remaining questions
+available to estimate their knowledge for it. For example, suppose a participant
+correctly answered $n$ out of $q$ questions on a given quiz. If we hold out a
+single \textit{correctly} answered question as the target, the proportion of
+remaining questions answered correctly would be $\frac{n - 1}{q - 1}$. Whereas
+if we hold out a single \textit{incorrectly} answered question, the proportion
+of remaining questions answered correctly would be $\frac{n}{q - 1}$. Thus, the
+proportion of correctly answered remaining questions (and therefore the
+null-hypothesized value of a knowledge estimate computed from them) is always
+\textit{lower} for target questions a participant answered correctly than for
+those they answered incorrectly.
 
 To correct for this baseline inverse relationship between a participant's
 success on a target question and their estimated knowledge for it, we used a
@@ -1441,29 +1441,30 @@ that of each individual subset ($\frac{n-1}{q-2}$). By equalizing the
 null-hypothesized values of knowledge estimates for correctly and incorrectly
 answered questions, this procedure ensures that any meaningful relationships we
 observe between participants' estimated knowledge for individual quiz questions
-and their ability to answer them are attributable to the predictive power of the
-embedding-space distances used to weight questions' contributions to the
-knowledge estimates, rather than an artifact of our estimation procedure. Note
-that if a participant answered all or no questions on a given quiz correctly,
-their responses contained no opposite-label questions with which to perform this
-rebalancing, and we therefore excluded their data from our analyses for that
-quiz. We used this rebalancing procedure when constructing knowledge estimates
-for the ``All questions'' and ``Within-lecture'' versions of the analyses shown
-in Figure~\ref{fig:predictions}, but not for the ``Across-lecture'' analyses as,
-in this case, the target questions and the questions used to estimate
-participants' knowledge for them were drawn from different subsets of quiz
-questions (those about one lecture, and those about the other), and were
-therefore independent.
+and their abilities to correctly answer them are attributable to the predictive
+power of the embedding-space distances used to weight questions' contributions
+to the knowledge estimates, rather than an artifact of our estimation procedure.
+Note that if a participant answered all or no questions on a given quiz
+correctly, their responses contained no opposite-label questions with which to
+perform this rebalancing, and we therefore excluded their data from our analyses
+for that quiz. We used this rebalancing procedure when constructing knowledge
+estimates for the ``All questions'' and ``Within-lecture'' versions of the
+analyses shown in Figure~\ref{fig:predictions}, but not for the
+``Across-lecture'' analyses as, in this case, the target questions and the
+questions used to estimate participants' knowledge for them were drawn from
+different subsets of quiz questions (those about one lecture, and those about
+the other), and were therefore independent.
 
 In each version of this analysis (i.e., row in Fig.~\ref{fig:predictions}), and
 separately for each of the three quizzes (i.e., column in
 Fig.~\ref{fig:predictions}), we then fit a generalized linear mixed model
 (GLMM) with a logistic link function to the set of knowledge estimates for all
-questions that participants answered on the given quiz. We implemented these
-models in \texttt{R} using the \texttt{lme4} package~\citep{BateEtal15a} and
-fit them following guidance from~\citet{BateEtal15b} and \citet{MatuEtal17}.
-Specifically, we initially fit each model with the maximal random effects
-structure afforded by our design, which we identified as:
+questions (or all questions about a particular lecture) that participants
+answered on the given quiz. We implemented these models in \texttt{R} using the
+\texttt{lme4} package~\citep{BateEtal15a} and fit them following guidance
+from~\citet{BateEtal15b} and \citet{MatuEtal17}. Specifically, we initially fit
+each model with the maximal random effects structure afforded by our design,
+which we identified as:
 \[
     \mathtt{accuracy \sim knowledge + (knowledge\ \vert\ participant) + (knowledge\ \vert\ question)}
 \]
@@ -1479,27 +1480,41 @@ $\mathtt{(knowledge\ \vert\ lecture)}$, where ``\texttt{lecture}'' is a
 categorical value denoting whether the target question was about \textit{Four
 Fundamental Forces}, \textit{Birth of Stars}, or general physics knowledge.
 Note that with our coding scheme, identifiers for each \texttt{question} are
-implicitly nested within levels of \texttt{lecture} and do not require explicit
-nesting in our model formula. We then iteratively removed random effects from
-the maximal model until it successfully converged with a full rank (i.e., non-singular)
-random effects variance-covariance matrix.
+implicitly nested within levels of \texttt{lecture} and so do not require
+explicit nesting in our model formula. We then iteratively removed random
+effects from the maximal model until it successfully converged with a full-rank
+random effects variance-covariance matrix. We obtained the odds ratios reported
+in Figure~\ref{fig:predictions} by exponentiating the estimated coefficient for
+``\texttt{knowledge}'' from each fitted model. Conceptually, these odds ratios
+represent how many times greater the odds are that a given participant will
+answer a given question correctly if their estimated knowledge for its embedding
+coordinate is 1, compared to if it is 0. We estimated 95\% confidence intervals
+for each odds ratio by generating 10,000 random subsamples (of full size, with
+replacement) from the data used to fit each model, and refitting the models to
+each subsample to obtain bootstrap distributions of 10,000 odds ratios.
 
 To assess the predictive value of our knowledge estimates, we compared each
-GLMM's ability to discriminate between correctly and incorrectly answered
-questions to that of an analogous model that did \textit{not} consider estimated
-knowledge. Specifically, we used the same sets of observations with which we
-fit each ``full'' model to fit a second ``null'' model, with the formula:
-\[
-    \mathtt{accuracy \sim (1\ \vert\ participant) + (1\ \vert\ question)}
-\]
-where ``\texttt{accuracy}'', ``\texttt{participant}'', and ``\texttt{question}'' are as defined above.
-As with our full models, the null models we fit for the “All questions” version of the analysis for each quiz contained an additional term, $\mathtt{(1\ \vert\ lecture)}$, where ``\texttt{lecture}'' is as defined above.
-We then compared each full model to its reduced (null) equivalent using a likelihood-ratio test (LRT).
-Because the typical asymptotic $\chi^2_d$ approximation of the null distribution for the LRT statistic ($\lambda_{LR}$) is anti-conservative for models that differ in their random slope terms~\citep{GoldSimo00,ScheEtal08b,SnijBosk11}, we computed $p$-values for these tests using a parametric bootstrap procedure~\citep{DaviHink97,HaleHojs14}.
-For each of 1,000 bootstraps, we used the fitted null model to simulate a sample of observations of equal size to our original sample.
-We then re-fit both the null and full models to this simulated sample and compared them via an LRT.
-This yielded a distribution of $\lambda_{LR}$ statistics we may expect to observe under our null hypothesis.
-We computed a corrected $p$-value for our observed $\lambda_{LR}$ as $\frac{r+1}{n+1}$, where $r$ is the number of simulated model comparisons that yielded a $\lambda_{LR}$ greater than our observed value and $n$ is the number of simulations we ran (1,000).
+GLMM's ability to explain participants' success on individual quiz questions to
+that of an analogous model which assumed (as we assume under our null hypothesis) that knowledge estimates for correctly and incorrectly answered
+questions did \textit{not} systematically differ, on average. Specifically, we
+used the same sets of observations with which we fit each ``full'' model to fit
+a second ``null'' model that had the same random effects structure, but in which
+the coefficient for the fixed effect of ''\texttt{knowledge}'' was fixed at 0
+(i.e., we removed this term from the null model). We then compared each full
+model to its reduced (null) equivalent using a likelihood-ratio test (LRT).
+Because the standard asymptotic $\chi^2_d$ approximation of the null
+distribution for the LRT statistic ($\lambda_{LR}$) can be anti-conservative for
+finite sample sizes~\citep{GoldSimo00,ScheEtal08b,SnijBosk11}, we computed
+$p$-values for these tests using a parametric bootstrap
+procedure~\citep{DaviHink97,HaleHojs14}. For each of 10,000 bootstraps, we used
+the fitted null model to simulate a sample of observations of equal size to our
+original sample. We then re-fit both the null and full models to this simulated
+sample and compared them via an LRT. This yielded a distribution of
+$\lambda_{LR}$ statistics we may expect to observe given data that conforms to
+our null hypothesis. We computed a corrected $p$-value for our observed
+$\lambda_{LR}$ as $\frac{r+1}{n+1}$, where $r$ is the number of simulated model
+comparisons that yielded a $\lambda_{LR}$ greater than our observed value and
+$n$ is the number of simulations we ran (10,000).
 
 \subsubsection*{Estimating the ``smoothness'' of knowledge}\label{subsec:smoothness}
 
