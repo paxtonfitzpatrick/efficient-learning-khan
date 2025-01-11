@@ -69,10 +69,11 @@ watching two course videos from the Khan Academy platform. We apply our
 framework to the videos' transcripts and the text of the quiz questions to
 quantify the content of each moment of video and each quiz question. We use
 these embeddings, along with participants' quiz responses, to track how the
-learners' knowledge changed after watching each video. Our findings show how a
-small set of quiz questions may be used to obtain rich and meaningful
-high-resolution insights into what each learner knows, and how their knowledge
-changes over time as they learn.
+learners' knowledge changed after watching each video and predict their success
+on individual quiz questions. Our findings show how a small set of quiz
+questions may be used to obtain rich and meaningful high-resolution insights
+into what each learner knows, and how their knowledge changes over time as they
+learn.
 
 \textbf{Keywords: education, learning, knowledge, concepts, natural language processing}
 
@@ -206,7 +207,10 @@ experimental paradigms and models that have only peripheral relevance to the
 kinds of learning that students and teachers actually seek~\citep{Macl05,
 HallGree08}. To help bridge this gap, our study uses course materials from real
 online courses to inform, fit, and test models of real-world conceptual
-learning. We also provide a demonstration of how our models can be used to
+learning. We show that these models recover meaningful relationships between
+concepts presented during course lectures and tested by assessments, and that
+these relationships can be leveraged to predict students' success on individual
+quiz questions. We also provide a demonstration of how our models can be used to
 construct ``maps'' of what students know, and how their knowledge changes with
 training. In addition to helping to visually capture knowledge (and changes in
 knowledge), we hope that such maps might lead to real-world tools for improving
@@ -884,11 +888,12 @@ estimate moment-by-moment ``knowledge traces'' that reflect the degree of
 knowledge participants have about each video's time-varying content, and
 capture temporally specific increases in knowledge after viewing each lecture
 (Fig.~\ref{fig:knowledge-timeseries}). We also show that these knowledge
-estimates can generalize to held-out questions (Fig.~\ref{fig:predictions}).
-Finally, we use our framework to construct visual maps that provide snapshot
-estimates of how much participants know about any concept within the scope of
-our text embedding model, and how much their knowledge of those concepts
-changes with training (Fig.~\ref{fig:knowledge-maps}).
+estimates can generalize to held-out questions and predict participants'
+abilities to answer them correctly (Fig.~\ref{fig:predictions}). Finally, we use
+our framework to construct visual maps that provide snapshot estimates of how
+much participants know about any concept within the scope of our text embedding
+model, and how much their knowledge of those concepts changes with training
+(Fig.~\ref{fig:knowledge-maps}).
 
 We view our work as making several contributions to the study of how people
 acquire conceptual knowledge. First, from a methodological standpoint, our
