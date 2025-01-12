@@ -769,24 +769,24 @@ model), the rate at which knowledge changes with distance is relatively
 constant, even as participants' overall level of knowledge varies across
 quizzes or regions of the embedding space.
 
-Knowledge estimates need not be limited to the content of the lectures. As
-illustrated in Figure~\ref{fig:knowledge-maps}, our general approach to
-estimating knowledge from a small number of quiz questions may be extended to
-\textit{any} content, given its text embedding coordinate. To visualize how
-knowledge ``spreads'' through text embedding space to content beyond the
-lectures participants watched, we first fit a new topic model to the lectures'
-sliding windows with $k = 100$~topics. Conceptually, increasing the
-number of topics used by the model functions to increase the ``resolution'' of
-the embedding space, providing a greater ability to estimate knowledge for
-content that is highly similar to (but not precisely the same as) that
-contained in the two lectures. We note that we used these 2D maps solely for
-visualization; all relevant comparisons, distance computations, and statistical
-tests we report above were carried out in the original 15-dimensional space,
-using the 15-topic model. Aside from increasing the number of topics from 15 to
-100, all other procedures and model parameters were carried over from the
-preceding analyses. As in our other analyses, we resampled each lecture's topic
-trajectory to 1~Hz and projected each question into a shared text embedding
-space.
+Knowledge estimates need not be limited to the contents of these particular
+lectures and quizzes. As illustrated in Figure~\ref{fig:knowledge-maps}, our 
+general approach to estimating knowledge from a small number of quiz questions 
+may be extended to \textit{any} content, given its text embedding coordinate. To 
+visualize how knowledge ``spreads'' through text embedding space to content 
+beyond the lectures participants watched and the questions they answered, we 
+first fit a new topic model to the lectures' sliding windows with $k = 
+100$~topics. Conceptually, increasing the number of topics used by the model 
+functions to increase the ``resolution'' of the embedding space, providing a 
+greater ability to estimate knowledge for content that is highly similar to (but 
+not precisely the same as) that contained in the two lectures used to train the 
+model. We note that we used these 2D maps solely for visualization; all relevant 
+comparisons, distance computations, and statistical tests we report above were 
+carried out in the original 15-dimensional space, using the 15-topic model. 
+Aside from increasing the number of topics from 15 to 100, all other procedures 
+and model parameters were carried over from the preceding analyses. As in our 
+other analyses, we resampled each lecture's topic trajectory to 1~Hz and 
+projected each question into a shared text embedding space.
 
 \begin{figure}[tp]
     \centering
