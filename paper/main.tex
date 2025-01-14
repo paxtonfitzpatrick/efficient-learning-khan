@@ -655,22 +655,20 @@ within-lecture knowledge estimates are susceptible to ceiling effects in
 participants' quiz performance. On Quiz~3, after viewing both lectures, no
 participant answered more than three \textit{Four Fundamental Forces}-related
 questions incorrectly, and all but five participants (out of 50) answered two or
-fewer questions incorrectly. (This was the only subset of questions about either
-lecture, across all three quizzes, for which this was true.) Because of this,
-when we held out one incorrectly answered
-\textit{Four Fundamental Forces}-related question from a given participant's
-Quiz~3 responses and estimated their knowledge at its embedding coordinate using
-the remaining \textit{Four Fundamental Forces}-related questions they answered,
-for 90\% of participants, that estimate leveraged information about at most a
-single other question they were \textit{not} able to correctly answer. This
-homogeneity in participants' success on questions used to estimate their
-knowledge may have hurt our ability to accurately characterize the specific (and
-by Quiz~3, relatively few) aspects of the lecture content they did \textit{not}
-know about. Taken together, these results suggest that our knowledge estimates
-can reliably distinguish between questions about different content covered by a
-single lecture, provided there is sufficient diversity in participants' quiz
-responses to extract meaningful information about both what they know and what
-they do not know.
+fewer incorrectly. (This was the only subset of questions about either lecture, 
+across all three quizzes, for which this was true.) Because of this, for 90\% of 
+participants, our within-lecture estimates of their knowledge for \textit{Four 
+Fundamental Forces}-related questions that they answered incorrectly leveraged 
+information from at most a single other question they were \textit{not} able to 
+correctly answer. This likely hampered our ability to accurately characterize 
+the specific (and by the time they took Quiz~3, relatively few) aspects of the 
+lecture content these participants did \textit{not} know about, and successfully 
+distinguish them from the far more numerous aspects of the lecture content they 
+now \textit{did} know about. Taken together, these results suggest that our 
+knowledge estimates can reliably distinguish between questions about different
+content covered by a single lecture, provided there is sufficient diversity in 
+participants' quiz responses to extract meaningful information about both what 
+they know and what they do not know.
 
 Finally, we estimated participants' knowledge for each question about one
 lecture using their performance on questions (from the same quiz) about the
@@ -678,13 +676,14 @@ lecture using their performance on questions (from the same quiz) about the
 Our primary assumption in building our knowledge estimates is that knowledge
 about a given concept is similar to knowledge about other concepts that are
 nearby in the embedding space. However, our analyses in Figure~\ref{fig:topics}
-and Supplementary Figure~\topicWeights~show that the embeddings of content from
-the two lectures are largely distinct. Therefore any predictive power of the
-knowledge estimates must overcome large distances in the embedding space. To
-put this in concrete terms, this test requires predicting participants'
-performance on individual highly specific questions about the formation of
-stars, using each participants' responses to just five multiple choice
-questions about the fundamental forces of the universe (and vice versa).
+and Supplementary Figure~\topicWeights\ show that the embeddings of content from
+the two lectures (and of their associated quiz questions) are largely distinct 
+from each other. Therefore, any predictive power of these across-lecture 
+knowledge estimates must overcome large distances in the embedding space. To put 
+this in concrete terms, this test requires predicting participants' performance 
+on individual, highly specific questions about the formation of stars from their 
+responses to just five multiple-choice questions about the fundamental forces of 
+the universe (and vice versa).
 
 We found that, before viewing either lecture (i.e., on Quiz~1), participants'
 abilities to answer \textit{Four Fundamental Forces}-related questions could
@@ -708,36 +707,35 @@ questions (\textit{Four Fundamental Forces} questions given \textit{Birth of
 Stars} questions: $OR = 11.294,\ 95\%\ \textnormal{CI} = [1.375,\ 47.744],\
 \lambda_{LR} = 10.396,\ p < 0.001$; \textit{Birth of Stars} questions given
 \textit{Four Fundamental Forces} questions: $OR = 7.302,\ 95\%\ \textnormal{CI}
-= [1.077,\ 44.879],\ \lambda_{LR} = 4.708,\ p = 0.038$). Taken together, our
+= [1.077,\ 44.879],\ \lambda_{LR} = 4.708,\ p = 0.038$). Taken together, these
 results suggest that our ability to form estimates solely across different
 content areas is more limited than our ability to form estimates that
-incorporate responses to questions across both content areas (as in
-Fig.~\ref{fig:predictions}, ``All questions'') or within a single content area (as
-in Fig.~\ref{fig:predictions}, ``Within-lecture'').  However, if participants have recently
-received some training on both content areas, the knowledge estimates appear to be informative
-even across content areas.
+incorporate responses to questions from both content areas (as in 
+Fig.~\ref{fig:predictions}, ``All questions'') or within a single content area 
+(as in Fig.~\ref{fig:predictions}, ``Within-lecture''). However, if participants 
+have recently received some training on both content areas, the knowledge 
+estimates appear to be informative even across content areas.
 
 We speculate that these ``Across-lecture'' results might relate to some of our
-earlier work on the nature of semantic representations~\citep{MannKaha12}. In
-that work, we asked whether semantic similarities could be captured through
-behavioral measures, even if participants' ``true'' internal representations
-differed from the embeddings used to \textit{characterize} participants'
-behaviors. We found that mismatches between someone's internal representation
-of a set of concepts and the representation used to characterize their
-behaviors can lead to underestimates of how semantically driven their behaviors
-are. Along similar lines, we suspect that in our current study, participants'
-conceptual representations may initially differ from the representations
-learned by our topic model. (Although the topic models are still
-\textit{related} to participants' initial internal representations; otherwise
-we would have found that knowledge estimates derived from Quiz 1 and 2
-responses would have no predictive power in the other tests we conducted.)
-After watching both lectures, however, participants' internal representations
-may become more aligned with the embeddings used to estimate their knowledge
-(since those embeddings were trained on the lecture transcripts). This could
-help explain why the knowledge estimates derived from Quizzes 1 and 2 (before
-both lectures had been watched) do not reliably predict performance across
-content areas, whereas estiamtes derived from Quiz 3 \textit{do} reliably
-predict performance across content areas.
+earlier work on the nature of semantic representations~\citep{MannKaha12}. In 
+that work, we asked whether semantic similarities could be captured through 
+behavioral measures, even if participants' ``true'' internal representations 
+differed from the embeddings used to \textit{characterize} their behaviors. We 
+found that mismatches between an individual's internal representation of a set 
+of concepts and the representation used to characterize their behaviors can lead 
+to underestimates of how semantically driven those behaviors are. Along similar 
+lines, we suspect that in our current study, participants' conceptual 
+representations may initially differ from the representations learned by our 
+topic model. (Although the topic model's representations are still 
+\textit{related} to participants' initial internal representations; otherwise we 
+would have found that knowledge estimates derived from Quizzes~1 and 2 had no 
+predictive power in the other tests we conducted.) After watching both lectures, 
+however, participants' internal representations may become more aligned with the 
+embeddings used to estimate their knowledge (since those embeddings were trained 
+on the lectures' transcripts). This could help explain why the knowledge 
+estimates derived from Quizzes~1 and 2 (before both lectures had been watched) 
+do not reliably predict performance across content areas, whereas estimates 
+derived from Quiz~3 do.
 
 That the knowledge predictions derived from the text embedding space reliably
 distinguish between held-out correctly versus incorrectly answered questions
