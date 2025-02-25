@@ -29,7 +29,7 @@
 \newcommand{\individualKnowledgeMapsC}{9}
 \newcommand{\individualLearningMapsA}{10}
 \newcommand{\individualLearningMapsB}{11}
-% supplementary discussion
+% supplementary results
 \newcommand{\suppResults}{\textit{Supplementary results}}
 
 % simple command for inline comments
@@ -938,7 +938,7 @@ framework provides a systematic means of mapping out and characterizing
 knowledge in maps that have infinite (arbitrarily many) numbers of coordinates,
 and of ``filling out'' those maps using relatively small numbers of 
 multiple-choice quiz questions. Our experimental finding that we can use these 
-maps to predict responses to held-out questions has several psychological 
+maps to predict success on held-out questions has several psychological 
 implications as well. For example, concepts that are assigned to nearby 
 coordinates by the text embedding model also appear to be ``known to a similar 
 extent'' (as reflected by participants' responses to held-out questions;
@@ -1001,23 +1001,30 @@ analogous matches based on the Jaccard similarity between each question's text
 and each sliding window from the corresponding lecture's transcript. Similarly 
 to the embeddings derived from BERT, we found that this approach also blurred 
 meaningful distinctions between concepts presented in different parts of each 
-lecture and tested by different quiz questions. In this case, this lack of 
-specificity reflects that meaningful distinctions between concepts do not tend
-to emerge at the level of individual words.
+lecture and tested by different quiz questions. But rather than characterizing
+their contents at too \textit{broad} a semantic scale, the lack of specificity 
+in this approach arises from considering too \textit{narrow} a semantic scale: 
+the sorts of concepts typically conveyed in course lectures and tested by quiz 
+questions are not defined (and meaningful similarities and distinctions between 
+them do not tend to emerge) at the level of individual words.
 
-In this way, we view our approach as occupying a sort of ``sweet spot'' between
-much larger language models and simpler word-matching-based approaches, in that 
-it enables us to capture the relevant conceptual content of course materials at 
-the appropriate semantic scale. Our approach enables us to accurately and 
-consistently identify each question's content in a way that matches it with 
-specific content from the lectures and distinguishes it from other questions 
-about similar content. In turn, this enables us to construct accurate 
-predictions about participants' knowledge of the conceptual content tested by 
-individual quiz questions (Fig.~\ref{fig:predictions}).
+In other words, while the embedding spaces of more complex large language models 
+afford low resolution at the scale of individual course lectures and questions 
+because they ``zoom out'' too far, simpler word-matching measures yield low 
+resolution because they ``zoom \textit{in}'' too far. In this way, we view our 
+approach as occupying a sort of ``sweet spot'' between simpler and more complex 
+alternatives, in that it enables us to characterize the contents of course 
+materials at the appropriate semantic scale where relevant concepts ``come into 
+focus.'' Our approach enables us to accurately and consistently identify each 
+question's content in a way that matches it with specific content from the 
+lectures and distinguishes it from other questions about similar content. In 
+turn, this enables us to construct accurate predictions about participants' 
+knowledge of the conceptual content tested by individual quiz questions 
+(Fig.~\ref{fig:predictions}).
 
 Another application for large language models that does \textit{not} require
 explicitly modeling the content of individual lectures or questions is to
-leverage the models' abilities to generate text. For example, generative text
+leverage these models' abilities to generate text. For example, generative text
 models like ChatGPT~\citep{ChatGPT} and LLaMa~\citep{TouvEtal23} are already
 being used to build a new generation of interactive tutoring
 systems~\citep[e.g.,][]{MannEtal23b}. Unlike the approach we have taken here,
