@@ -2,7 +2,7 @@
 \usepackage[english]{babel}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{geometry}
-\usepackage{natbib}
+\usepackage[sort&compress, numbers]{natbib}
 \usepackage{pxfonts}
 \usepackage{graphicx}
 \usepackage{newfloat}
@@ -12,6 +12,8 @@
 \usepackage{longtable}
 \usepackage[table]{xcolor}
 \usepackage{ragged2e}
+
+\setcitestyle{notesep={; }}
 
 % some customizations for better-looking tables:
 % color for gray rows
@@ -23,7 +25,10 @@
 % gaps above & below
 \newcommand{\thickhline}{\noalign{\hrule height.6pt}}
 
+% references to main text
+\newcommand{\slidingWindows}{2}
 \newcommand{\topicVariability}{3}
+\newcommand{\questionCorrs}{4}
 \newcommand{\knowledgeMaps}{7}
 \newcommand{\topicModelMethods}{\textit{Constructing text embeddings of multiple lectures and questions}}
 
@@ -136,6 +141,7 @@ Jeremy.R.Manning@Dartmouth.edu}}
   \end{longtable}
 \end{tiny}
 
+
 \begin{table}
   \centering\tiny
   \rowcolors{1}{}{tablerowgray}
@@ -239,6 +245,7 @@ Jeremy.R.Manning@Dartmouth.edu}}
   \end{longtable}
 \end{tiny}
 
+
 \clearpage
 
 \section*{Supplementary figures}
@@ -288,6 +295,7 @@ Jeremy.R.Manning@Dartmouth.edu}}
     corresponding lecture intervals displayed in Supplementary
     Table~\ref{tab:matches}. The diamonds denote the peak correlation values
     (local maxima) within each shaded region.}
+    
     \label{fig:forces-peaks}
 \end{figure}
 
@@ -308,53 +316,6 @@ Jeremy.R.Manning@Dartmouth.edu}}
 
     \label{fig:bos-peaks}
 \end{figure}
-
-
-\begin{figure}[tp]
-    \centering
-    \includegraphics[width=0.57\textwidth]{figs/word-overlap-comparison}
-
-    \caption{\textbf{Topic correlations versus word overlap.} \textbf{A.
-    Single-timepoint comparisons for \textit{Four Fundamental Forces}.} Each
-    question about \textit{Four Fundamental Forces} was compared to each
-    timepoint of the lecture (dots). The blue dots denote the correlations
-    between the topic vectors, and the orange dots denote Jaccard similarities
-    (defined as the number of unique words in common between the question and
-    corresponding window of the lecture, divided by the total number of unique
-    words in both). \textbf{B. Single-timepoint comparisons for \textit{Birth
-    of Stars}}. Same format as Panel A. \textbf{C. Topic correlation time series
-    plots.} This panel is in the same format as Figure 4A from the main text,
-    but here the example question highlighted in purple in Panel A has been
-    emphasized for the \textit{Four Fundamental Forces} traces on the left, and
-    the example question highlighted in green in Panel B has been emphasized
-    for the \textit{Birth of Stars} traces on the right. \textbf{D. Jaccard
-    similarity time series plots.} These panels are in the same format as Panel
-    C, but they display the Jaccard similarity time series for the same
-    questions. \textbf{E. Question and lecture text.} The text for the example
-    purple (left) and green (right) questions is shown on top, and the text
-    from the best-matching intervals of the lectures (computed using topic
-    correlations; see Supp.~Tab.~\ref{tab:matches}) are shown on the bottom.}
-
-
-    \label{fig:compare-wordcount}
-\end{figure}
-
-
-\begin{figure}[tp]
-    \centering
-    \includegraphics[width=0.7\textwidth]{figs/model-comparison}
-
-    \caption{\textbf{Comparing LDA vs. BERT embeddings.} The rows display the
-    equivalents of main text Figure 2C (top row), Figures 4A and 4B (middle two
-    rows), and Figure 3B (bottom row) computed using LDA (left) and BERT
-    (right).}
-
-    \label{fig:compare-bert}
-\end{figure}
-
-
-
-\newpage
 
 
 \begin{figure}[tp]
@@ -421,11 +382,117 @@ Jeremy.R.Manning@Dartmouth.edu}}
     \label{fig:learning-maps-q2_3}
 \end{figure}
 
+
+\begin{figure}[tp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/model-comparison}
+
+    \caption{\textbf{Comparing LDA vs. BERT embeddings.} The rows display the
+    equivalents of main text Figure \slidingWindows C (top row), Figures 
+    \questionCorrs A and \questionCorrs B (middle two rows), and Figure 
+    \topicVariability B (bottom row) computed using LDA (left) and BERT 
+    (right).}
+
+    \label{fig:compare-bert}
+\end{figure}
+
+
+\begin{figure}[tp]
+    \centering
+    \includegraphics[width=0.57\textwidth]{figs/word-overlap-comparison}
+
+    \caption{\textbf{Topic correlations versus word overlap.} \textbf{A.
+    Single-timepoint comparisons for \textit{Four Fundamental Forces}.} Each
+    question about \textit{Four Fundamental Forces} was compared to each
+    timepoint of the lecture (dots). The blue dots denote the correlations
+    between the topic vectors, and the orange dots denote Jaccard similarities
+    (defined as the number of unique words in common between the question and
+    corresponding window of the lecture, divided by the total number of unique
+    words in both). \textbf{B. Single-timepoint comparisons for \textit{Birth
+    of Stars}}. Same format as Panel A. \textbf{C. Topic correlation time series
+    plots.} This panel is in the same format as Figure 4A from the main text,
+    but here the example question highlighted in purple in Panel A has been
+    emphasized for the \textit{Four Fundamental Forces} traces on the left, and
+    the example question highlighted in green in Panel B has been emphasized
+    for the \textit{Birth of Stars} traces on the right. \textbf{D. Jaccard
+    similarity time series plots.} These panels are in the same format as Panel
+    C, but they display the Jaccard similarity time series for the same
+    questions. \textbf{E. Question and lecture text.} The text for the example
+    purple (left) and green (right) questions is shown on top, and the text
+    from the best-matching intervals of the lectures (computed using topic
+    correlations; see Supp.~Tab.~\ref{tab:matches}) are shown on the bottom.}
+
+    \label{fig:compare-wordcount}
+\end{figure}
+
 \FloatBarrier
 
-\section*{Supplementary discussion}
+\section*{Supplementary results}
+
+\doublespacing
 
 
+%In our study, we construct the coordinate space through which we relate the 
+%conceptual contents of course lectures and quiz questions using a relatively 
+%simple text embedding model ~\citep[LDA; ][]{BleiEtal03} trained on overlapping 
+%sliding windows of text from the lectures' transcripts (see \topicModelMethods). 
+%While we considered using more modern and complex models trained on much 
+%larger and more diverse text corpora [e.g., BERT,~\citealp{DevlEtal18}; 
+%GPT,~\citealp{ViswEtal17}; LLaMa,~\citealp{TouvEtal23}], we found that the 
+%embeddings yielded by the LDA model exhibited a number of desirable 
+%properties that embeddings derived from larger pre-trained models did not. To
+%illustrate some of these properties, in Supplementary 
+%Figure~\ref{fig:compare-bert} we display a subset of visualizations from the 
+%main text based on our LDA embeddings (left column) alongside analogous 
+%visualizations based instead on BERT embeddings (right column). Qualitatively
+%comparing these two sets of visualizations suggests that \_\_\_\_\_
+
+In our study, we relate the conceptual contents of course lectures and quiz 
+questions by their coordinates in a high-dimensional feature space, which we 
+construct using a relatively simple text embedding model (Latent Dirichlet 
+Allocation;~\citealp{BleiEtal03}) trained on overlapping sliding windows of 
+text from the lectures' transcripts (see \topicModelMethods). In comparing our 
+approach to various alternative methods of characterizing the lectures' and 
+questions' contents, we found that LDA embeddings exhibited a number of 
+desirable properties that both simpler and more complex alternatives did not. 
+For example, we found that analogous embeddings derived from more modern and 
+complex models trained on much larger and more diverse text corpora (e.g., 
+BERT,~\citealp{DevlEtal18}; GPT,~\citealp{ViswEtal17}; 
+LLaMa,~\citealp{TouvEtal23}) tended to afford poor resolution within the content 
+space spanned by individual course lectures and quiz questions. To illustrate this contrast, in 
+Supplementary Figure~\ref{fig:compare-bert} we display a subset of 
+visualizations from the main text based on our LDA embeddings (left column) 
+alongside analogous visualizations based instead on BERT embeddings (right 
+column).
+
+The top row of Supplementary Figure~\ref{fig:compare-bert} displays PCA 
+projections of the two lectures' trajectories and 39 quiz questions' 
+coordinates within the embedding space of each model (analogous to 
+Figure~{\slidingWindows}C in the main text). Qualitatively comparing these two
+sets of projections reveals a number of notable differences. For example, 
+whereas the LDA embeddings of the lectures and questions are ``near'' each 
+other (i.e., the convex hull enclosing the two lectures' trajectories is highly 
+overlapping with the convex hull enclosing the questions' embeddings), the BERT 
+embeddings of the lectures and questions are instead largely distinct. The LDA 
+embeddings of the questions about each lecture and the corresponding lecture's 
+trajectory are also similar: \textit{Four Fundamental Forces}-related questions 
+(blue dots) generally appear closer to the \textit{Four Fundamental Forces} 
+lecture trajectory (blue line), while \textit{Birth of Stars}-related questions 
+(green dots) generally appear closer to the \textit{Birth of Stars} lecture trajectory 
+(green line). The BERT embeddings of the lectures and questions do not display 
+this property.
+
+The second row of Supplementary Figure~\ref{fig:compare-bert} offers a more 
+quantitative version of the comparisons above. 
+Here, for the embeddings derived from each model, we show the pairwise correlations between the variance in each feature dimension's weight, across timepoints from each lecture and quiz questions about each content area
+(analogous to main text Fig.~\topicVariability B). The LDA embeddings show a strong contrast between same-content embeddings and across-content embeddings. In other words, the the amount of ``information'' about different features (i.e., topics) reflected in each lecture's content is highly similar to the amount of information reflected in the contents of its corresponding quiz questions, and dissimilar from that of other subsets of quiz questions. The BERT embeddings, by contrast, do not exhibit these clear distinctions between content areas, and instead represent \textit{all} course materials used in our study highly similarly overall. This indicates that, relative to enormous breadth of conceptual content BERT embeddings can represent, representations of concepts that are specifically related to \textit{Four Fundamental Forces}, specifically related to \textit{Birth of Stars}, and related to physics more generally are so similar as to be almost indistinguishable. 
+Additionally, the relative similarities (i.e., correlations) between lectures and question sets indicate that both lectures are represented more similarly to each other than to any subset of quiz questions, and each subset of quiz questions is represented more similarly to other quiz questions than to either lecture. This mirrors the separation between the lectures and questions visible in their PCA projections above, and suggests that BERT's representations of the subtle, specific semantic features that link the lecture and questions within each content area, and distinguish between different content areas, are sufficiently weak that they are overpowered by representations of \textit{syntactic} features that tend to distinguish questions from lectures more broadly (e.g., beginning with words like ``What'', ``Which'', or ``Why'', ending with a question mark, etc.). Taken together, first two rows of Supplementary Figure~\ref{fig:compare-bert} suggest that a simple LDA model trained on the specific lectures used in our study can ``match'' quiz questions to their corresponding lectures by similarities in their embedding weights, while BERT (trained on a much broader text corpus) cannot.
+
+We also examined both models' abilities to match the quiz questions to specific temporal intervals within the lectures. The third and fourth rows of Supplementary Figure~\ref{fig:compare-bert} display the time series of correlations between the embedding weights for each quiz question and each timepoint of its corresponding lecture (third row: \textit{Four Fundamental Forces}; fourth row: \textit{Birth of Stars}; analogous to main text Fig.~\questionCorrs). When computed using LDA embeddings, the questions' correlation time series generally appear fairly different from each other (i.e., individual questions' traces can be easily visually separated), whereas their correlation time series computed using BERT embeddings are all highly similar. This indicates that the LDA embeddings are capturing some differences in content between the questions about a given lecture that the BERT embeddings are not. The time series plots of individual questions' correlations also exhibit clear ``peaks'' when computed using LDA embeddings, but not when computed using BERT embeddings. This indicates that the LDA embeddings are capturing specific ``matches'' between individual quiz questions and relatively well defined time periods of lecture content, whereas the BERT embeddings appear to blue these specific correspondences. Taken together, these comparisons suggest that our LDA model trained specifically on the two lectures' contents is sensitive to subtle differences between the concepts probed by individual quiz questions, and can identify the relevant periods in the lectures where those concepts where presented (Fig.~\questionCorrs, Supp.~Figs.~\ref{fig:forces-peaks},~\ref{fig:bos-peaks}, Supp.~Tab.~\ref{tab:matches}). Meanwhile, BERT, whose embedding weights must be able to represent a far broader range of concepts, consequently blurs these subtle distinctions between concepts conveyed within the span of a single course lecture, thereby affording a ``lower resolution'' depiction of its contents. 
 
 
+\clearpage
+\bibliographystyle{apa}
+\renewcommand{\refname}{Supplementary references}
+\bibliography{CDL-bibliography/cdl}
 \end{document}
