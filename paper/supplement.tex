@@ -437,17 +437,17 @@ construct using a relatively simple text embedding model (Latent Dirichlet
 Allocation;~\citealp{BleiEtal03}) trained on overlapping sliding windows of 
 text from the lectures' transcripts (see \topicModelMethods). In comparing our 
 approach to various alternative methods of characterizing the lectures' and 
-questions' contents, we found that LDA embeddings exhibited a number of 
-desirable properties that both simpler and more complex alternatives did not. 
-For example, we found that analogous embeddings derived from more modern and 
-complex models trained on much larger and more diverse text corpora (e.g., 
-BERT,~\citealp{DevlEtal18}; GPT,~\citealp{ViswEtal17}; 
-LLaMa,~\citealp{TouvEtal23}) tended to afford poor resolution within the content 
-space spanned by individual course lectures and quiz questions. To illustrate 
-this contrast, in Supplementary Figure~\ref{fig:compare-bert} we display a 
-subset of visualizations from the main text based on our LDA embeddings (left 
-column) alongside analogous visualizations based instead on BERT embeddings 
-(right column).
+questions' contents, we found that embeddings derived from our corpus-specific 
+LDA model exhibited a number of desirable properties that both simpler and more 
+complex alternatives did not. For example, we found that analogous embeddings 
+derived from more modern and complex models trained on much larger and more 
+diverse text corpora (e.g., BERT,~\citealp{DevlEtal18}; 
+GPT,~\citealp{ViswEtal17}; LLaMa,~\citealp{TouvEtal23}) tended to afford poor 
+resolution within the content space spanned by individual course lectures and 
+quiz questions. To illustrate this contrast, in Supplementary 
+Figure~\ref{fig:compare-bert} we display a subset of visualizations from the 
+main text based on our LDA embeddings (left column) alongside analogous 
+visualizations based instead on BERT embeddings (right column).
 
 The top row of Supplementary Figure~\ref{fig:compare-bert} displays PCA 
 projections of the two lectures' trajectories and 39 quiz questions' 

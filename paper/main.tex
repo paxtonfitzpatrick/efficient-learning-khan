@@ -951,9 +951,6 @@ our study shows that knowledge about a given concept implies knowledge about
 related concepts, and we also show how estimated knowledge falls off with
 distance in text embedding space.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 In our study, we characterize the ``coordinates'' of participants' knowledge
 using a relatively simple ``bag of words'' text embedding model~\citep[LDA;
 ][]{BleiEtal03}. More sophisticated text embedding models, such as
@@ -969,12 +966,12 @@ constructing models that are both high-resolution within a given domain (e.g.,
 the domain of physics lectures and questions) \textit{and} sufficiently broad 
 as to enable them to cover a wide range of domains. Essentially, these 
 ``larger'' language models learn these more complex features of language through 
-pre-training on enormous and diverse text corpora. But as a result, their 
+training on enormous and diverse text corpora. But as a result, their 
 embedding spaces also ``span'' an enormous and diverse range of conceptual 
 content, sacrificing a degree of specificity in their capacities to distinguish 
 subtle conceptual differences within a more narrow range of content. 
 In comparing our LDA model (trained specifically on the lectures used in our 
-study) to a larger transformer-based model (BERT), we found that LDA provides 
+study) to a larger transformer-based model (BERT), we found that our LDA model provides 
 both coverage of the requisite material and specificity at the level of 
 individual questions, while BERT essentially relegates the contents of both 
 lectures and all quiz questions (which are all broadly about ``physics'') to a 
@@ -985,11 +982,13 @@ other large language models trained on large and diverse corpora. Rather, our
 point is that simpler models trained on relatively small but specialized 
 corpora can outperform much more complex models trained on much larger corpora 
 when we are specifically interested in capturing subtle conceptual differences 
-at the level of a single course lecture or question. On the other hand, if our 
-goal had been to choose a model that generalized to many different content 
-domains, we would expect our LDA model to perform comparatively poorly to BERT 
-or other much larger models. We suggest that bridging this tradeoff will be
-an important challenge for future work.
+at the level of a single course lecture or quiz question. On the other hand, if 
+our goal had been to choose a model that generalized to many different content 
+areas, we would expect our LDA model to perform comparatively poorly to BERT or 
+other much larger general-purpose models. We suggest that bridging this tradeoff 
+between high resolution within a single content area and the ability to 
+generalize to many diverse content areas will be an important challenge for 
+future work.
 
 At the opposite end of the spectrum from large language models, one could also
 imagine using an even \textit{simpler} ``model'' than LDA that relates the 
