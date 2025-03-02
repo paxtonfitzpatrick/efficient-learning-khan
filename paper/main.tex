@@ -1,6 +1,5 @@
 \documentclass[10pt]{article}
 \usepackage{amsmath}
-\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{geometry}
@@ -10,34 +9,32 @@
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{lineno}
-
 \usepackage{xcolor}
 
 \setcitestyle{notesep={; }}
 
-% supplemental tables
+% supplementary tables
 \newcommand{\questions}{1}
 \newcommand{\topics}{2}
 \newcommand{\matchTab}{3}
-
-% supplemental figures
+% supplementary figures
 \newcommand{\topicWordWeights}{1}
 \newcommand{\topicWeights}{2}
 \newcommand{\forcesCorrs}{3}
 \newcommand{\bosCorrs}{4}
-\newcommand{\jaccard}{5}
-\newcommand{\ldaVsBERT}{6}
-\newcommand{\individualKnowledgeMapsA}{7}
-\newcommand{\individualKnowledgeMapsB}{8}
-\newcommand{\individualKnowledgeMapsC}{9}
-\newcommand{\individualLearningMapsA}{10}
-\newcommand{\individualLearningMapsB}{11}
-
-\newcommand{\U}{{\fontfamily{serif}\selectfont\ensuremath{\mathrm{U}}}}
-
+\newcommand{\individualKnowledgeMapsA}{5}
+\newcommand{\individualKnowledgeMapsB}{6}
+\newcommand{\individualKnowledgeMapsC}{7}
+\newcommand{\individualLearningMapsA}{8}
+\newcommand{\individualLearningMapsB}{9}
+\newcommand{\jaccard}{10}
+\newcommand{\ldaVsBERT}{11}
+% supplementary results
+\newcommand{\suppResults}{\textit{Supplementary results}}
 
 % simple command for inline comments
 \newcommand{\comment}[1]{}
+
 % italicize section names in \nameref and place in \mbox to prevent bug when
 % text is split across lines or pages
 \NewCommandCopy{\oldnameref}{\nameref}
@@ -939,15 +936,15 @@ Our work makes several contributions to the study of how people acquire
 conceptual knowledge. First, from a methodological standpoint, our modeling
 framework provides a systematic means of mapping out and characterizing
 knowledge in maps that have infinite (arbitrarily many) numbers of coordinates,
-and of ``filling out'' those maps using relatively small numbers of multiple
-choice quiz questions. Our experimental finding that we can use these maps to
-predict responses to held-out questions has several psychological implications
-as well. For example, concepts that are assigned to nearby coordinates by the
-text embedding model also appear to be ``known to a similar extent'' (as
-reflected by participants' responses to held-out questions;
+and of ``filling out'' those maps using relatively small numbers of 
+multiple-choice quiz questions. Our experimental finding that we can use these 
+maps to predict success on held-out questions has several psychological 
+implications as well. For example, concepts that are assigned to nearby 
+coordinates by the text embedding model also appear to be ``known to a similar 
+extent'' (as reflected by participants' responses to held-out questions;
 Fig.~\ref{fig:predictions}). This suggests that participants also
 \textit{conceptualize} similarly the content reflected by nearby embedding
-coordinates. How participants' knowledge falls off with spatial distance is
+coordinates. How participants' knowledge ``falls off'' with spatial distance is
 captured by the knowledge maps we infer from their quiz responses
 (e.g., Figs.~\ref{fig:smoothness},~\ref{fig:knowledge-maps}). In other words,
 our study shows that knowledge about a given concept implies knowledge about
@@ -957,79 +954,76 @@ distance in text embedding space.
 In our study, we characterize the ``coordinates'' of participants' knowledge
 using a relatively simple ``bag of words'' text embedding model~\citep[LDA;
 ][]{BleiEtal03}. More sophisticated text embedding models, such as
-transformer-based models~\citep{ViswEtal17, DevlEtal18, ChatGPT, TouvEtal23}
-can learn complex grammatical and semantic relationships between words,
-higher-order syntactic structures, stylistic features, and more. We considered
-using transformer-based models in our study, but we found that the text
-embeddings derived from these models were surprisingly uninformative with
-respect to differentiating or otherwise characterizing the conceptual content
-of the lectures and questions we used. We suspect that this reflects a broader
-challenge in constructing models that are high-resolution within a given domain
-(e.g., the domain of physics lectures and questions) \textit{and} sufficiently
-broad so as to enable them to cover a wide range of domains. For example, we
-found that the embeddings derived even from much larger and more modern models
-like BERT~\citep{DevlEtal18}, GPT~\citep{ViswEtal17}, LLaMa~\citep{TouvEtal23},
-and others that are trained on enormous text corpora, end up yielding poor
-resolution within the content space spanned by individual course videos
-(Supp.~Fig.~\ldaVsBERT). Whereas the LDA embeddings of the lectures and
-questions are ``near'' each other (i.e., the convex hull enclosing the two
-lectures' trajectories is highly overlapping with the convex hull enclosing the
-questions' embeddings), the BERT embeddings of the lectures and questions are
-instead largely distinct (top row of Supp.~Fig.~\ldaVsBERT). The LDA embeddings
-of the questions for each lecture and the corresponding lecture's trajectory
-are also similar. For example, as shown in Fig.~\ref{fig:sliding-windows}C, the
-LDA embeddings for \textit{Four Fundamental Forces} questions (blue dots)
-appear closer to the \textit{Four Fundamental Forces} lecture trajectory (blue
-line), whereas the LDA embeddings for \textit{Birth of Stars} questions (green
-dots) appear closer to the \textit{Birth of Stars} lecture trajectory (green
-line). The BERT embeddings of the lectures and questions do not show this
-property (Supp.~Fig.~\ldaVsBERT). We also examined per-question ``content
-matches'' between individual questions and individual moments of each lecture
-(Fig.~\ref{fig:question-correlations}, Supp.~Fig.~\ldaVsBERT). The time series
-plot of individual questions' correlations are different from each other when
-computed using LDA (e.g., the traces can be clearly visually separated), whereas
-the correlations computed from BERT embeddings of different questions all look
-very similar. This tells us that LDA is capturing some differences in content
-between the questions, whereas BERT is not. The time series plots of individual
-questions' correlations have clear ``peaks'' when computed using LDA, but not
-when computed using BERT. This tells us that LDA is capturing a ``match''
-between the content of each question and a relatively well-defined time window
-of the corresponding lectures. The BERT embeddings appear to blur together the
-content of the questions versus specific moments of each lecture. Finally, we
-also compared the pairwise correlations between embeddings of questions within
-versus across content areas (i.e., content covered by the individual lectures,
-lecture-specific questions, and by the ``general physics knowledge''
-questions). The LDA embeddings show a strong contrast between same-content
-embeddings versus across-content embeddings. In other words, the embeddings of
-questions about the \textit{Four Fundamental Forces} material are highly
-correlated with the embeddings of the \textit{Four Fundamental Forces} lecture,
-but not with the embeddings of \textit{Birth of Stars}, questions about
-\textit{Birth of Stars}, or general physics knowledge questions. We see a
-similar pattern with the LDA embeddings of the \textit{Birth of Stars}
-questions (Fig.~\ref{fig:topics}, Supp.~Fig.~\topicWeights). In contrast, the
-BERT embeddings are all highly correlated with each other (Supp.
-Fig.~\ldaVsBERT). Taken together, these comparisons illustrate how LDA (trained
-on the specific content in question) provides both coverage of the requisite
-material and specificity at the level of the content covered by individual
-questions. BERT, on the other hand, essentially assigns both lectures and all
-of the questions (which are all broadly about ``physics'') into a tiny region
-of its embedding space, thereby blurring out meaningful distinctions between
-different specific concepts covered by the lectures and questions. We note that
-these are not criticisms of BERT (or other large language models trained on
-large and diverse corpora). Rather, our point is that simple fine-tuned models
-trained on a relatively small but specialized corpus can outperform much more
-complicated models trained on much larger corpora, when we are specifically
-interested in capturing subtle conceptual differences at the level of a single
-course lecture or question. Of course if our goal had been to find a model that
-generalized to many different content areas, we would expect our approach to
-perform comparatively poorly relative to BERT or other much larger models. We
-suggest that bridging the tradeoff between high resolution within each content
-area versus the ability to generalize to many different content areas will be
-an important challenge for future work in this domain.
+transformer-based models~\citep{ViswEtal17, DevlEtal18, ChatGPT, TouvEtal23},
+can leverage additional textual information such as complex grammatical and 
+semantic relationships between words, higher-order syntactic structures, 
+stylistic features, and more. We considered using transformer-based models in 
+our study, but we found that the text embeddings derived from these models were 
+surprisingly uninformative with respect to differentiating or otherwise 
+characterizing the conceptual content of the lectures and questions we used 
+(see \suppResults). We suspect that this reflects a broader challenge in 
+constructing models that are both high-resolution within a given domain (e.g., 
+the domain of physics lectures and questions) \textit{and} sufficiently broad 
+as to enable them to cover a wide range of domains. Essentially, these 
+``larger'' language models learn these more complex features of language through 
+training on enormous and diverse text corpora. But as a result, their 
+embedding spaces also ``span'' an enormous and diverse range of conceptual 
+content, sacrificing a degree of specificity in their capacities to distinguish 
+subtle conceptual differences within a more narrow range of content. 
+In comparing our LDA model (trained specifically on the lectures used in our 
+study) to a larger transformer-based model (BERT), we found that our LDA model provides 
+both coverage of the requisite material and specificity at the level of 
+individual questions, while BERT essentially relegates the contents of both 
+lectures and all quiz questions (which are all broadly about ``physics'') to a 
+tiny region of its embedding space, thereby blurring out meaningful distinctions 
+between different specific concepts covered by the lectures and questions 
+(Supp.~Fig.~\ldaVsBERT). We note that these are not criticisms of BERT, nor of 
+other large language models trained on large and diverse corpora. Rather, our 
+point is that simpler models trained on relatively small but specialized 
+corpora can outperform much more complex models trained on much larger corpora 
+when we are specifically interested in capturing subtle conceptual differences 
+at the level of a single course lecture or quiz question. On the other hand, if 
+our goal had been to choose a model that generalized to many different content 
+areas, we would expect our LDA model to perform comparatively poorly to BERT or 
+other much larger general-purpose models. We suggest that bridging this tradeoff 
+between high resolution within a single content area and the ability to 
+generalize to many diverse content areas will be an important challenge for 
+future work.
+
+At the opposite end of the spectrum from large language models, one could also
+imagine using an even \textit{simpler} ``model'' than LDA that relates the 
+contents of course lectures and quiz questions through explicit word-overlap 
+metrics (rather than similarities in the latent topics they exhibit). In a 
+supplementary analysis (Supp.~Fig.~\jaccard), we compared the LDA-based 
+question-lecture matches shown in Figure~\ref{fig:question-correlations} with
+analogous matches based on the Jaccard similarity between each question's text 
+and each sliding window from the corresponding lecture's transcript. Similarly 
+to the embeddings derived from BERT, we found that this approach also blurred 
+meaningful distinctions between concepts presented in different parts of each 
+lecture and tested by different quiz questions. But rather than characterizing
+their contents at too \textit{broad} a semantic scale, the lack of specificity 
+in this approach arises from considering too \textit{narrow} a semantic scale: 
+the sorts of concepts typically conveyed in course lectures and tested by quiz 
+questions are not defined (and meaningful similarities and distinctions between 
+them do not tend to emerge) at the level of individual words.
+
+In other words, while the embedding spaces of more complex large language models 
+afford low resolution at the scale of individual course lectures and questions 
+because they ``zoom out'' too far, simpler word-matching measures yield low 
+resolution because they ``zoom \textit{in}'' too far. In this way, we view our 
+approach as occupying a sort of ``sweet spot'' between simpler and more complex 
+alternatives, in that it enables us to characterize the contents of course 
+materials at the appropriate semantic scale where relevant concepts ``come into 
+focus.'' Our approach enables us to accurately and consistently identify each 
+question's content in a way that matches it with specific content from the 
+lectures and distinguishes it from other questions about similar content. In 
+turn, this enables us to construct accurate predictions about participants' 
+knowledge of the conceptual content tested by individual quiz questions 
+(Fig.~\ref{fig:predictions}).
 
 Another application for large language models that does \textit{not} require
 explicitly modeling the content of individual lectures or questions is to
-leverage the models' abilities to generate text. For example, generative text
+leverage these models' abilities to generate text. For example, generative text
 models like ChatGPT~\citep{ChatGPT} and LLaMa~\citep{TouvEtal23} are already
 being used to build a new generation of interactive tutoring
 systems~\citep[e.g.,][]{MannEtal23b}. Unlike the approach we have taken here,
@@ -1042,39 +1036,6 @@ time. Such a hybrid system could potentially be used to build the next
 generation of interactive tutoring systems that are able to adapt to learners'
 needs in real time, and that are able to provide more nuanced feedback about
 what learners know and what they do not know.
-
-At the opposite end of the spectrum from large language models, one could also
-imagine \textit{simplifying} some aspects of our LDA-based approach by
-computing simple word overlap metrics. For example, the Jaccard similarity
-between text $A$ and $B$ is computed as the number of unique words in the
-intersection of words from $A$ and $B$ divided by the number of unique words in
-the union of words from $A$ and $B$. In a supplementary analysis
-(Supp.~Fig.~\jaccard), we compared the LDA-based question-lecture matches we
-reported in Figure~\ref{fig:question-correlations} with the Jaccard similarities
-between each question and each sliding window of text from the corresponding
-lecture. As shown in Supplementary Figure~\jaccard, this simple word-matching
-approach does not appear to capture the same level of specificity as the
-LDA-based approach. Whereas the LDA-based approach often yields a clear peak in
-the time series of correlations between each question and the corresponding
-lecture, the Jaccard similarity-based approach does not. Furthermore, these
-LDA-based matches appear to capture conceptual overlaps between the questions
-and lectures (Supp.~Tab.~\matchTab), whereas simple word matching does not. For
-example, one of the example questions examined in Supplementary
-Figure~\jaccard~asks ``Which of the following occurs as a cloud of atoms gets
-more dense?'' The LDA-based matches identify lecture timepoints where the
-relevant \textit{topics} are discussed (e.g., when words like ``cloud,''
-``atom,'' ``dense,'' etc., are mentioned \textit{together}). The Jaccard
-similarity-based matches, on the other hand, are strong when \textit{any} of
-these words are mentioned, even if they do not occur together.
-
-We view our approach as occupying a sort of ``sweet spot,'' between much larger
-language models and simple word matching-based approaches, that enables us to
-capture the relevant conceptual content of course materials at an appropriate
-semantic scale. Our approach enables us to accurately and consistently identify
-each question's content in a way that also matches up with what is presented in
-the lectures. In turn, this enables us to construct accurate predictions about
-participants' knowledge of the conceptual content tested by held-out questions
-(Fig.~\ref{fig:predictions}).
 
 One limitation of our approach is that topic models contain no explicit
 internal representations of more complex aspects of ``knowledge,'' like
