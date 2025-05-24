@@ -1238,7 +1238,7 @@ computational framework for estimating knowledge and learning.
 \subsubsection*{Statistics}
 
 All of the statistical tests performed in our study were two-sided. The 95\%
-confidence intervals we reported for each correlation were estimated from
+confidence intervals we report for each correlation were estimated from
 bootstrap distributions of 10,000 correlation coefficients obtained by
 sampling (with replacement) from the observed data.
 
@@ -1270,10 +1270,10 @@ weights over words in the vocabulary for each discovered topic is shown in
 Supplementary Figure~\topicWordWeights, and each topic's top-weighted words may
 be found in Supplementary Table~\topics.
 
-As illustrated in Figure~\ref{fig:sliding-windows}A, we start by building up a
-corpus of documents using overlapping sliding windows that span each video's
+As illustrated in Figure~\ref{fig:sliding-windows}A, we started by building up a
+corpus of documents using overlapping sliding windows that spanned each lecture's
 transcript. Khan Academy provides professionally created, manual transcriptions
-of all videos for closed captioning. However, such transcripts would not be
+of all lecture videos for closed captioning. However, such transcripts would not be
 readily available in all contexts to which our framework could potentially be
 applied. Khan Academy videos are hosted on the YouTube platform, which
 additionally provides automated captions. We opted to use these automated
@@ -1283,9 +1283,9 @@ studies; ][]{ZimaEtal18} when developing our framework in order to make
 it more directly extensible and adaptable by others in the future.
 
 We fetched these automated transcripts using the
-\texttt{youtube-transcript-api} Python package~\citep{Depo18}. The transcripts
+\texttt{youtube-transcript-api} Python package~\citep{Depo18}. Each transcript
 consisted of one timestamped line of text for every few seconds (mean: 2.34~s;
-standard deviation: 0.83~s) of spoken content in the video (i.e., corresponding
+standard deviation: 0.83~s) of spoken content in the lecture (i.e., corresponding
 to each individual caption that would appear on-screen if viewing the lecture
 via YouTube, and when those lines would appear). We defined a sliding window
 length of (up to) $w = 30$ transcript lines and assigned each window a
@@ -1307,13 +1307,13 @@ stop word list with the following additional words, selected using one of the
 approaches suggested by~\citet{BoydEtal14}: ``actual,'' ``actually,'' ``also,''
 ``bit,'' ``could,'' ``e,'' ``even,'' ``first,'' ``follow,'' ``following,''
 ``four,'' ``let,'' ``like,'' ``mc,'' ``really,'', ``saw,'' ``see,'' ``seen,''
-``thing,'' and ``two.'' This yielded sliding windows with an average of 73.8
-remaining words, and lasting for an average of 62.22~seconds. We treated the
+``thing,'' and ``two.'' This yielded sliding windows containing an average of 73.8
+remaining words, and spanning an average of 62.22~seconds. We treated the
 text from each sliding window as a single ``document'' and combined these
-documents across the two videos' windows to create a single training corpus for
+documents across the two lectures' windows to create a single training corpus for
 the topic model.
 
-After fitting the topic model to the two videos' transcripts, we could use the
+After fitting the topic model to the two lectures' transcripts, we could use the
 trained model to transform arbitrary (potentially new) documents into
 $k$-dimensional topic vectors. A convenient property of these topic vectors is
 that documents that reflect similar blends of topics (i.e., documents that
@@ -1326,13 +1326,13 @@ similarity in conceptual content between the documents.
 We transformed each sliding window's text into a topic vector, and then used
 linear interpolation (independently for each topic dimension) to resample the
 resulting time series to one vector per second. We also used the fitted model to
-obtain topic vectors for each question in our pool (see Supp.~Tab.~\questions).
-Taken together, we obtained a \textit{trajectory} for each video, describing
+obtain topic vectors for each quiz question in our pool (see Supp.~Tab.~\questions).
+Taken together, we obtained a \textit{trajectory} for each lecture video, describing
 its path through topic space, and a single coordinate for each question
-(Fig.~\ref{fig:sliding-windows}C). Embedding both videos and all of the
+(Fig.~\ref{fig:sliding-windows}C). Embedding both lectures and all of the
 questions using a common model enables us to compare the content from different
-moments of videos, compare the content across videos, and estimate potential
-associations between specific questions and specific moments of video.
+moments of the lectures, compare the content across lectures, and estimate potential
+associations between specific questions and specific moments of lecture content.
 
 
 \subsubsection*{Estimating dynamic knowledge traces}\label{subsec:traces}
@@ -1349,12 +1349,12 @@ where
     \mathrm{ncorr}(x, y) = \frac{\mathrm{corr}(x, y) - \mathrm{mincorr}}{\mathrm{maxcorr} - \mathrm{mincorr}},
 \end{equation}
 and where $\mathrm{mincorr}$ and $\mathrm{maxcorr}$ are the minimum and maximum
-correlations between any lecture timepoint and question, taken over all
+correlations between the topic vectors for any lecture timepoint and quiz question, taken over all
 timepoints in the given lecture and all questions \textit{about} that
 lecture appearing on the given quiz. We also define $f(s, \Omega)$ as the
 $s$\textsuperscript{th} topic vector from the set of topic vectors $\Omega$.
-Here $t$ indexes the set of lecture topic vectors $L$, and $i$ and $j$ index
-the topic vectors of questions $Q$ used to estimate the knowledge trace. Note
+Here $t$ indexes the time series of lecture topic vectors $L$, and $i$ and $j$ index
+the topic vectors of questions $Q$ used to estimate the participant's knowledge. Note
 that ``$\mathrm{correct}$'' denotes the set of indices of the questions the
 participant answered correctly on the given quiz.
 
@@ -1391,17 +1391,17 @@ bottom rows).
 
 In performing these analyses, our null hypothesis is that the knowledge
 estimates we compute based on the quiz questions' embedding coordinates do
-\textit{not} provide useful information about participants' abilities to answer
+\textit{not} provide useful information about participants' abilities to correctly answer
 those questions---in other words, that there is no meaningful difference (on
 average) between the knowledge estimates we compute for questions participants
-answered correctly and those they answered incorrectly. Specifically, since we
+answered correctly versus incorrectly. Specifically, since we
 estimate knowledge for a given embedding coordinate as a weighted
 proportion-correct score (where each question's weight reflects its
 embedding-space distance from the target coordinate; see Eqn.~\ref{eqn:prop}),
 if these weights are uninformative (e.g., randomly distributed), then our
 estimates of participants' knowledge should be equivalent (on average) to the
 \textit{unweighted} proportion of correctly answered questions used to compute
-them. In general, for a given participant and quiz, this expected value (i.e.,
+them. In general, for a given participant and quiz, this expected null value (i.e.,
 that participant's proportion-correct score on that quiz) is the same for any
 coordinate in the embedding space (e.g., any lecture timepoint, quiz question,
 etc.). However, in the ``All questions'' and ``Within-lecture'' versions of the
@@ -1413,7 +1413,7 @@ target question and their proportion-correct score on the remaining questions
 available to estimate their knowledge for it. For example, suppose a participant
 correctly answered $n$ out of $q$ questions on a given quiz. If we hold out a
 single \textit{correctly} answered question as the target, the proportion of
-remaining questions answered correctly would be $\frac{n - 1}{q - 1}$. Whereas
+remaining questions answered correctly would be $\frac{n - 1}{q - 1}$, whereas
 if we hold out a single \textit{incorrectly} answered question, the proportion
 of remaining questions answered correctly would be $\frac{n}{q - 1}$. Thus, the
 proportion of correctly answered remaining questions (and therefore the
@@ -1421,12 +1421,11 @@ null-hypothesized value of a knowledge estimate computed from them) is always
 \textit{lower} for target questions a participant answered correctly than for
 those they answered incorrectly.
 
-To correct for this baseline inverse relationship between a participant's
-success on a target question and their estimated knowledge for it, we used a
+To correct for this baseline difference under our null hypothesis, we used a
 rebalancing procedure that ensured our knowledge estimates for questions each
 participant answered correctly and incorrectly were computed from the
 \textit{same} proportion of correctly answered questions. For each target
-question on a given participant's quiz, we identified all remaining questions
+question on a given participant's quiz, we first identified all remaining questions
 with the opposite ``correctness'' label (i.e., if the target question was
 answered correctly, we identified all remaining incorrectly answered questions,
 and vice versa). We then held out each of these opposite-label questions, in
@@ -1434,21 +1433,21 @@ turn, along with the target question, and estimated the participant's knowledge
 for the target question using all \textit{other} remaining questions. Since each
 of these subsets of remaining questions was constructed by holding out one
 correctly answered question and one incorrectly answered question from the
-participant's quiz, if the participant correctly answered $n$ out of $q$
+participant's quiz responses, if the participant correctly answered $n$ out of $q$
 questions total, then their proportion-correct score on each subset of questions
-used to estimate their knowledge for the target question is $\frac{n-1}{q-2}$,
+used to estimate their knowledge would be $\frac{n-1}{q-2}$,
 regardless of whether they answered the target question correctly or
-incorrectly. Finally, averaging over these per-subset knowledge estimates
-yielded a rebalanced estimate of the participant's knowledge for the target
+incorrectly. Finally, we averaged over these per-subset knowledge estimates
+to obtain a rebalanced estimate of the participant's knowledge for the target
 question that leveraged information from all remaining questions' embedding
 coordinates, but whose expected value under our null hypothesis was the same as
 that of each individual subset ($\frac{n-1}{q-2}$). By equalizing the
 null-hypothesized values of knowledge estimates for correctly and incorrectly
 answered questions, this procedure ensures that any meaningful relationships we
 observe between participants' estimated knowledge for individual quiz questions
-and their abilities to correctly answer them are attributable to the predictive
-power of the embedding-space distances used to weight questions' contributions
-to the knowledge estimates, rather than an artifact of our estimation procedure.
+and their abilities to correctly answer them reflect the predictive
+power of the embedding-space distances we use to weight questions' contributions
+to the knowledge estimates, rather than an artifact of our testing procedure.
 Note that if a participant answered all or no questions on a given quiz
 correctly, their responses contained no opposite-label questions with which to
 perform this rebalancing, and we therefore excluded their data from our analyses
@@ -1503,9 +1502,9 @@ GLMM's ability to explain participants' success on individual quiz questions to
 that of an analogous model which assumed (as we assume under our null
 hypothesis) that knowledge estimates for correctly and incorrectly answered
 questions did \textit{not} systematically differ, on average. Specifically, we
-used the same sets of observations with which we fit each ``full'' model to fit
-a second ``null'' model that had the same random effects structure, but in which
-the coefficient for the fixed effect of ''\texttt{knowledge}'' was fixed at 0
+used the same sets of observations to which we fit each ``full'' model to fit
+a second ``null'' model with the same random effects structure, but with
+the coefficient for the fixed effect of ''\texttt{knowledge}'' constrained to zero
 (i.e., we removed this term from the null model). We then compared each full
 model to its reduced (null) equivalent using a likelihood-ratio test (LRT).
 Because the standard asymptotic $\chi^2_d$ approximation of the null
@@ -1581,7 +1580,7 @@ Figure~\ref{fig:smoothness}B.
 \subsubsection*{Creating knowledge and learning map visualizations}\label{subsec:knowledge-maps}
 
 An important feature of our approach is that, given a trained text embedding
-model and participants' quiz performance on each question, we can estimate
+model and participants' performance on each quiz question, we can estimate
 their knowledge about \textit{any} content expressible by the embedding
 model---not solely the content explicitly probed by the quiz questions, or even
 appearing in the lectures. To visualize these estimates
@@ -1636,7 +1635,7 @@ knowledge) at each of the resulting 10,000 coordinates.
 To generate our estimates, we placed a set of 39 radial basis functions (RBFs)
 throughout the embedding space, centered on the 2D projections for each
 question (i.e., we included one RBF for each question). At coordinate $x$, the
-value of an RBF centered on a question's coordinate $\mu$, is given by:
+value of an RBF centered on a question's coordinate $\mu$ is given by:
 \begin{equation}
     \mathrm{RBF}(x, \mu, \lambda) = \exp\left\{-\frac{||x - \mu||^2}{\lambda}\right\}.
     \label{eqn:rbf}
