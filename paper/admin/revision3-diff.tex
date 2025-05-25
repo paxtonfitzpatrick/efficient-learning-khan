@@ -1,7 +1,7 @@
 \documentclass[10pt]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL old.tex    Sun May 25 17:02:22 2025
-%DIF ADD main.tex   Sat May 24 21:55:34 2025
+%DIF ADD main.tex   Sun May 25 18:10:53 2025
 \usepackage{amsmath}
 %DIF 3d3
 %DIF < \usepackage[utf8]{inputenc}
@@ -40,7 +40,7 @@
 \newcommand{\topicWeights}{2}
 \newcommand{\forcesCorrs}{3}
 \newcommand{\bosCorrs}{4}
-%DIF 28-34c25-33
+%DIF 28-34c25-31
 %DIF < \newcommand{\jaccard}{5}
 %DIF < \newcommand{\ldaVsBERT}{6}
 %DIF < \newcommand{\individualKnowledgeMapsA}{7}
@@ -54,26 +54,29 @@
 \newcommand{\individualKnowledgeMapsC}{7} %DIF > 
 \newcommand{\individualLearningMapsA}{8} %DIF > 
 \newcommand{\individualLearningMapsB}{9} %DIF > 
-\newcommand{\jaccard}{10} %DIF > 
-\newcommand{\ldaVsBERT}{11} %DIF > 
+\newcommand{\ldaVsBERT}{10} %DIF > 
+\newcommand{\jaccard}{11} %DIF > 
+%DIF -------
+
+%DIF 36c33-34
+%DIF < \newcommand{\U}{{\fontfamily{serif}\selectfont\ensuremath{\mathrm{U}}}}
+%DIF -------
 % supplementary results %DIF > 
 \newcommand{\suppResults}{\textit{Supplementary results}} %DIF > 
 %DIF -------
 
-%DIF 36-38d35
-%DIF < \newcommand{\U}{{\fontfamily{serif}\selectfont\ensuremath{\mathrm{U}}}}
-%DIF < 
+%DIF 38d36
 %DIF < 
 %DIF -------
 % simple command for inline comments
 \newcommand{\comment}[1]{}
-%DIF 41a37
+%DIF 41a38
  %DIF > 
 %DIF -------
 % italicize section names in \nameref and place in \mbox to prevent bug when
 % text is split across lines or pages
 \NewCommandCopy{\oldnameref}{\nameref}
-%DIF 44c41
+%DIF 44c42
 %DIF < \renewcommand{\nameref}[1]{\mbox{\textit{\oldnameref{#1}}}}
 %DIF -------
 \renewcommand{\nameref}[1]{\textit{\oldnameref{#1}}} %DIF > 
