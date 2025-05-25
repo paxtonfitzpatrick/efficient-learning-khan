@@ -64,10 +64,10 @@ Jeremy.R.Manning@Dartmouth.edu}}
 \begin{abstract}\noindent We develop a mathematical framework, based on natural
 language processing models, for tracking and characterizing the acquisition of
 conceptual knowledge. Our approach embeds each concept in a high-dimensional
-representation space, where nearby coordinates reflect similar or related
+representation space where nearby coordinates reflect similar or related
 concepts. We test our approach using behavioral data from participants who
 answered small sets of multiple-choice quiz questions interleaved between
-watching two course videos from the Khan Academy platform. We apply our
+watching two Khan Academy course videos. We apply our
 framework to the videos' transcripts and the text of the quiz questions to
 quantify the content of each moment of video and each quiz question. We use
 these embeddings, along with participants' quiz responses, to track how the
@@ -553,7 +553,7 @@ content tested by a given question, our estimates of their knowledge should
 carry some predictive information about whether they are likely to answer that
 question correctly or incorrectly. We developed a statistical approach to test
 this claim. For each quiz question a participant answered, in turn, we used
-Equation~\ref{eqn:prop} to estimate their knowledge at the given question's
+Equation~\ref{eqn:prop} to estimate their knowledge at that question's
 embedding-space coordinate based on other questions that participant answered
 on the same quiz. We repeated this for all participants, and for each of the
 three quizzes. Then, separately for each quiz, we fit a generalized linear
@@ -593,7 +593,7 @@ nested) ``null'' model that assumed these estimates carried no predictive inform
 We carried out three different versions of the analyses described above,
 wherein we considered different sources of information in our estimates of
 participants' knowledge for each quiz question. First, we estimated knowledge
-at each question's embedding coordinate using \textit{all} other questions
+at each held-out question's embedding coordinate using \textit{all} other questions
 answered by the same participant on the same quiz (``All questions'';
 Fig.~\ref{fig:predictions}, top row). This test was intended to assess the
 overall predictive power of our approach. Second, we estimated knowledge for
@@ -627,7 +627,7 @@ performance on individual questions when they incorporate information from all
 (other) quiz content.
 
 We observed a similar set of results when we restricted our estimates of
-participants' knowledge for questions about each lecture to consider only
+participants' knowledge to consider only
 their performance on other questions about the \textit{same} lecture.
 Specifically, for Quiz~1, participants' knowledge of \textit{Four Fundamental
 Forces}-related questions, estimated from their performance on other
@@ -637,23 +637,22 @@ ability to answer those questions correctly ($OR = 15.934,\ 95\%\
 same was true of participants' estimated knowledge for \textit{Birth of
 Stars}-related questions based on their performance on other \textit{Birth of
 Stars}-related questions ($OR = 9.775,\ 95\%\ \textnormal{CI} = [2.93,\
-25.08],\ \lambda_{LR} = 13.924,\ p = 0.001$). These within-lecture knowledge
-estimates also predicted success on questions about both lectures when we
-computed them analogously for Quiz~2 (\textit{Four Fundamental Forces}: $OR =
+25.08],\ \lambda_{LR} = 13.924,\ p = 0.001$). These results also held for
+participants' Quiz~2 responses (\textit{Four Fundamental Forces}: $OR =
 35.126,\ 95\%\ \textnormal{CI} = [5.113,\ 123.868],\ \lambda_{LR} = 32.251,\
 p < 0.001$; \textit{Birth of Stars}: $OR = 4.717,\ 95\%\ \textnormal{CI} =
-[2.021,\ 9.844],\ \lambda_{LR} = 16.788,\ p < 0.001$). For Quiz~3, we found that
-within-lecture knowledge estimates predicted participants' success on
-\textit{Birth of Stars}-related questions ($OR = 16.902,\ 95\%\ \textnormal{CI}
-= [3.353,\ 53.265],\ \lambda_{LR} = 23.233,\ p < 0.001$) but not on \textit{Four
-Fundamental Forces}-related questions ($OR = 2.485,\ 95\%\ \textnormal{CI} =
-[0.724,\ 8.366],\ \lambda_{LR} = 1.984,\ p = 0.170$). This may indicate that the
-within-lecture knowledge estimates are susceptible to ceiling effects in
+[2.021,\ 9.844],\ \lambda_{LR} = 16.788,\ p < 0.001$) and partially for 
+their Quiz~3 responses (\textit{Birth of Stars}: $OR = 16.902,\ 95\%\ 
+\textnormal{CI} = [3.353,\ 53.265],\ \lambda_{LR} = 23.233,\ p < 0.001$; 
+\textit{Four Fundamental Forces}: $OR = 2.485,\ 95\%\ \textnormal{CI} =
+[0.724,\ 8.366],\ \lambda_{LR} = 1.984,\ p = 0.170$). Speculatively, the Quiz~3 
+results suggest that the within-lecture knowledge estimates may be 
+susceptible to ceiling effects in
 participants' quiz performance. On Quiz~3, after viewing both lectures, no
 participant answered more than three \textit{Four Fundamental Forces}-related
 questions incorrectly, and all but five participants (out of 50) answered two or
 fewer incorrectly. (This was the only subset of questions about either lecture, 
-across all three quizzes, for which this was true.) Because of this, for 90\% of 
+across all three quizzes, for which this was true.) Consequently, for 90\% of 
 participants, our within-lecture estimates of their knowledge for \textit{Four 
 Fundamental Forces}-related questions that they answered incorrectly leveraged 
 information from at most a single other question they were \textit{not} able to 
@@ -661,14 +660,14 @@ correctly answer. This likely hampered our ability to accurately characterize
 the specific (and by the time they took Quiz~3, relatively few) aspects of the 
 lecture content these participants did \textit{not} know about, and successfully 
 distinguish them from the far more numerous aspects of the lecture content they 
-now \textit{did} know about. Taken together, these results suggest that our 
+now \textit{did} know about. Taken together, these within-lecture results suggest that our 
 knowledge estimates can reliably distinguish between questions about different
 content covered by a single lecture, provided there is sufficient diversity in 
 participants' quiz responses to extract meaningful information about both what 
 they know and what they do not know.
 
-Finally, we estimated participants' knowledge for each question about one
-lecture using their performance on questions (from the same quiz) about the
+Finally, we estimated participants' knowledge for each question about each
+lecture using only their performance on questions (from the same quiz) about the
 \textit{other} lecture. This is an especially stringent test of our approach.
 Our primary assumption in constructing our knowledge estimates is that knowledge
 about a given concept is similar to knowledge about other concepts that are
@@ -736,7 +735,7 @@ derived from Quiz~3 do.
 
 That the knowledge predictions derived from the text embedding space reliably
 distinguish between correctly and incorrectly answered held-out questions
-(Fig.~\ref{fig:predictions}) suggests that spatial relationships within this
+(Fig.~\ref{fig:predictions}) suggests that geometric relationships within this
 space can help explain what participants know. But how far does this
 explanatory power extend? For example, suppose we know that a participant
 correctly answered a question at embedding coordinate $x$. As we move farther
@@ -963,8 +962,8 @@ characterizing the conceptual content of the lectures and questions we used
 (see \suppResults). We suspect that this reflects a broader challenge in 
 constructing models that are both high-resolution within a given domain (e.g., 
 the domain of physics lectures and questions) \textit{and} sufficiently broad 
-as to enable them to cover a wide range of domains. Essentially, these 
-``larger'' language models learn these more complex features of language through 
+as to enable them to cover a wide range of domains. Essentially, 
+``larger'' language models learn more complex features of language through 
 training on enormous and diverse text corpora. But as a result, their 
 embedding spaces also ``span'' an enormous and diverse range of conceptual 
 content, sacrificing a degree of specificity in their capacities to distinguish 
@@ -981,11 +980,11 @@ other large language models trained on large and diverse corpora. Rather, our
 point is that simpler models trained on relatively small but specialized 
 corpora can outperform much more complex models trained on much larger corpora 
 when we are specifically interested in capturing subtle conceptual differences 
-at the level of a single course lecture or quiz question. On the other hand, if 
+at the level of a single, narrowly focused course lecture or quiz question. On the other hand, if 
 our goal had been to choose a model that generalized to many different content 
 areas simultaneously, we would expect our LDA model to perform comparatively poorly to BERT or 
 other much larger general-purpose models. We suggest that bridging this tradeoff 
-between high resolution within a single content area and the ability to 
+between achieving high resolution within a single content area and the ability to 
 generalize to many diverse content areas will be an important challenge for 
 future work.
 
@@ -996,8 +995,8 @@ metrics (rather than similarities in the latent topics they exhibit). In a
 supplementary analysis (Supp.~Fig.~\jaccard), we compared the LDA-based 
 question-lecture matches shown in Figure~\ref{fig:question-correlations} with
 analogous matches based on the Jaccard similarity between each question's text 
-and each sliding window from the corresponding lecture's transcript. Similarly 
-to the embeddings derived from BERT, we found that this approach also blurred 
+and each sliding window from the corresponding lecture's transcript. As for 
+the embeddings derived from BERT, we found that this word-matching approach also blurred 
 meaningful distinctions between concepts presented in different parts of each 
 lecture and tested by different quiz questions. But rather than characterizing
 their contents at too \textit{broad} a semantic scale, the lack of specificity 
