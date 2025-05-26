@@ -1,6 +1,5 @@
 \documentclass[10pt]{article}
 \usepackage{amsmath}
-\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{geometry}
@@ -10,38 +9,37 @@
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{lineno}
-
 \usepackage{xcolor}
 
 \setcitestyle{notesep={; }}
 
-% supplemental tables
+% supplementary tables
 \newcommand{\questions}{1}
 \newcommand{\topics}{2}
 \newcommand{\matchTab}{3}
-
-% supplemental figures
+% supplementary figures
 \newcommand{\topicWordWeights}{1}
 \newcommand{\topicWeights}{2}
 \newcommand{\forcesCorrs}{3}
 \newcommand{\bosCorrs}{4}
-\newcommand{\jaccard}{5}
-\newcommand{\ldaVsBERT}{6}
-\newcommand{\individualKnowledgeMapsA}{7}
-\newcommand{\individualKnowledgeMapsB}{8}
-\newcommand{\individualKnowledgeMapsC}{9}
-\newcommand{\individualLearningMapsA}{10}
-\newcommand{\individualLearningMapsB}{11}
+\newcommand{\individualKnowledgeMapsA}{5}
+\newcommand{\individualKnowledgeMapsB}{6}
+\newcommand{\individualKnowledgeMapsC}{7}
+\newcommand{\individualLearningMapsA}{8}
+\newcommand{\individualLearningMapsB}{9}
+\newcommand{\ldaVsBERT}{10}
+\newcommand{\jaccard}{11}
 
-\newcommand{\U}{{\fontfamily{serif}\selectfont\ensuremath{\mathrm{U}}}}
-
+% supplementary results
+\newcommand{\suppResults}{\textit{Supplementary results}}
 
 % simple command for inline comments
 \newcommand{\comment}[1]{}
+
 % italicize section names in \nameref and place in \mbox to prevent bug when
 % text is split across lines or pages
 \NewCommandCopy{\oldnameref}{\nameref}
-\renewcommand{\nameref}[1]{\mbox{\textit{\oldnameref{#1}}}}
+\renewcommand{\nameref}[1]{\textit{\oldnameref{#1}}}
 
 \doublespacing
 \linenumbers
@@ -49,9 +47,14 @@
 \title{Text embedding models yield high-resolution insights into conceptual
 knowledge from short multiple-choice quizzes}
 
-\author{Paxton C. Fitzpatrick\textsuperscript{1},
-Andrew C. Heusser\textsuperscript{1, 2}, and Jeremy R.
-Manning\textsuperscript{1, *}\\\small{\textsuperscript{1}Department of Psychological and Brain Sciences}\\\small{Dartmouth College, Hanover, NH 03755, USA}\\\small{\textsuperscript{2}Akili Interactive Labs}\\\small{Boston, MA 02110, USA}\\\small{\textsuperscript{*}Corresponding author:
+\author{Paxton C. Fitzpatrick\textsuperscript{1}, Andrew C.
+Heusser\textsuperscript{1, 2}, and Jeremy R. Manning\textsuperscript{1, *}\\
+\vspace{-0.5em}\small{\textsuperscript{1}Department of Psychological and Brain
+Sciences}\\
+\small{Dartmouth College, Hanover, NH 03755, USA}\\
+\vspace{-0.5em}\small{\textsuperscript{2}Akili Interactive Labs}\\
+\small{Boston, MA 02110, USA}\\
+\vspace{-0.5em}\small{\textsuperscript{*}Corresponding author:
 Jeremy.R.Manning@Dartmouth.edu}}
 
 \date{}
@@ -62,17 +65,18 @@ Jeremy.R.Manning@Dartmouth.edu}}
 \begin{abstract}\noindent We develop a mathematical framework, based on natural
 language processing models, for tracking and characterizing the acquisition of
 conceptual knowledge. Our approach embeds each concept in a high-dimensional
-representation space, where nearby coordinates reflect similar or related
+representation space where nearby coordinates reflect similar or related
 concepts. We test our approach using behavioral data from participants who
 answered small sets of multiple-choice quiz questions interleaved between
-watching two course videos from the Khan Academy platform. We apply our
+watching two Khan Academy course videos. We apply our
 framework to the videos' transcripts and the text of the quiz questions to
 quantify the content of each moment of video and each quiz question. We use
 these embeddings, along with participants' quiz responses, to track how the
-learners' knowledge changed after watching each video. Our findings show how a
-small set of quiz questions may be used to obtain rich and meaningful
-high-resolution insights into what each learner knows, and how their knowledge
-changes over time as they learn.
+learners' knowledge changed after watching each video and predict their success
+on individual quiz questions. Our findings show how a small set of quiz
+questions may be used to obtain rich and meaningful high-resolution insights
+into what each learner knows, and how their knowledge changes over time as they
+learn.
 
 \textbf{Keywords: education, learning, knowledge, concepts, natural language processing}
 
@@ -104,7 +108,7 @@ on a complex task sacrifices certain relevant information, risks conflating
 underlying factors, and so on. For example, consider the relative utility of
 the theoretical map described above that characterizes a student's knowledge in
 detail, versus a single annotation saying that the student answered 85\% of
-their quiz questions correctly, or that they received a `B'. Here, we show that
+their quiz questions correctly, or that they received a `B'. Here we show that
 the same quiz data required to compute proportion-correct scores or letter
 grades can instead be used to obtain far more detailed insights into what a
 student knew at the time they took the quiz.
@@ -139,8 +143,8 @@ attempt to capture the deeper meaning \textit{underlying} those atomic
 elements. These models consider not only the co-occurrences of those
 elements within and across documents, but (in many cases) also
 patterns in how those elements appear across different scales (e.g.,
-sentences, paragraphs, chapters, etc.), the temporal and grammatical
-properties of the elements, and other high-level characteristics of
+sentences, paragraphs, chapters, etc.), their temporal and grammatical
+properties, and other high-level characteristics of
 how they are used~\citep{Mann23b, Mann21a}.
 To be clear, this is not to say that text embedding models themselves
 are capable of ``understanding'' deep conceptual meaning in any
@@ -153,7 +157,7 @@ the deep conceptual meaning of a document may be captured by a feature
 vector in a high-dimensional representation space, wherein nearby
 vectors reflect conceptually related documents. A model that succeeds
 at capturing an analogue of ``understanding'' is able to assign nearby
-feature vectors to two conceptually related documents, \textit{even
+feature vectors to two conceptually related documents \textit{even
   when the specific words contained in those documents have limited
   overlap}. In this way, ``concepts'' are defined implicitly by the
 model's geometry~\citep[e.g., how the embedding coordinate of a given
@@ -196,7 +200,7 @@ Approaches to studying conceptual learning, such as category learning
 experiments, can begin to investigate the distinction between memorization and
 understanding, often by training participants to distinguish arbitrary or
 random features in otherwise meaningless categorized stimuli~\citep{ReilEtal82,
-Este86a, Este86b, GlucEtal02, AshbMadd05, HulbNorm15}. However the objective of
+Este86a, Este86b, GlucEtal02, AshbMadd05, HulbNorm15}. However, the objective of
 real-world training, or learning from life experiences more generally, is often
 to develop new knowledge that may be applied in \textit{useful} ways in the
 future. In this sense, the gap between modern learning theories and modern
@@ -206,7 +210,10 @@ experimental paradigms and models that have only peripheral relevance to the
 kinds of learning that students and teachers actually seek~\citep{Macl05,
 HallGree08}. To help bridge this gap, our study uses course materials from real
 online courses to inform, fit, and test models of real-world conceptual
-learning. We also provide a demonstration of how our models can be used to
+learning. We show that these models recover meaningful relationships between
+concepts presented during course lectures and tested by assessments, and that
+these relationships can be leveraged to predict students' success on individual
+quiz questions. We also provide a demonstration of how our models can be used to
 construct ``maps'' of what students know, and how their knowledge changes with
 training. In addition to helping to visually capture knowledge (and changes in
 knowledge), we hope that such maps might lead to real-world tools for improving
@@ -243,7 +250,7 @@ labels.
     completing three 13-question multiple-choice quizzes and watching two Khan
     Academy lectures. Each quiz contains a mix of 5 questions about Lecture~1,
     5 questions about Lecture~2, and 3 questions about general physics
-    knowledge. The specific questions reflected on each quiz, and the orders of
+    knowledge. The specific questions appearing on each quiz, and the orders of
     each quiz's questions, were randomized across participants.}
 
     \label{fig:experiment}
@@ -262,7 +269,7 @@ knowledge) so as to limit the impact of prior training on participants'
 abilities to learn from the lectures. To this end, we selected two introductory
 videos that were intended to be viewed at the start of students' training in
 their respective content areas. Second, we wanted the two lectures to have some
-related content, so that we could test our approach's ability to distinguish
+related content so that we could test our approach's ability to distinguish
 similar conceptual content. To this end, we chose two videos from the same Khan
 Academy course domain, ``Cosmology and Astronomy.'' Third, we sought to
 minimize dependencies and specific overlap between the videos. For example, we
@@ -314,7 +321,7 @@ the latent themes in the lectures using a topic model~\citep{BleiEtal03}.
 Briefly, topic models take as input a collection of text documents, and learn a
 set of ``topics'' (i.e., latent themes) from their contents. Once fit, a topic
 model can be used to transform arbitrary (potentially new) documents into sets
-of ``topic proportions,'' describing the weighted blend of learned topics
+of ``topic proportions'' describing the weighted blend of learned topics
 reflected in their texts. We parsed automatically generated transcripts of the
 two lectures into overlapping sliding windows, where each window contained the
 text of the lecture transcript from a particular time span. We treated the set
@@ -338,16 +345,16 @@ indeed the topic model could capture information about the deeper conceptual
 content of the lectures (i.e., beyond surface-level details such as particular
 word choices), then we should be able to recover a correspondence between each
 lecture and questions \textit{about} each lecture. Importantly, such a
-correspondence could not solely arise from superficial text matching between
+correspondence could not arise solely from superficial text matching between
 lecture transcripts and questions, since the lectures and questions often used
 different words (Supp.~Fig.~\jaccard) and phrasings. Simply comparing the
 average topic weights from each lecture and question set (averaging across time
 and questions, respectively) reveals a striking correspondence
 (Supp.~Fig.~\topicWeights). Specifically, the average topic weights from Lecture~1 are
-strongly correlated with the average topic weights from Lecture~1 questions
+strongly correlated with the average topic weights from questions about Lecture~1
 ($r(13) = 0.809,~p < 0.001$, 95\% confidence interval (CI)~$= [0.633,~0.962]$),
 and the average topic weights from Lecture~2 are strongly correlated with the
-average topic weights from Lecture~2 questions ($r(13) = 0.728,~p = 0.002$,
+average topic weights from questions about Lecture~2 ($r(13) = 0.728,~p = 0.002$,
 95\% CI~$= [0.456,~0.920]$). At the same time, the average topic weights from
 the two lectures are \textit{negatively} correlated with the average topic weights from their non-matching
 question sets (Lecture~1 video vs.~Lecture~2 questions: $r(13) = -0.547,~p =
@@ -362,7 +369,7 @@ reported in Supplementary Figure~\topicWeights.
     \includegraphics[width=\textwidth]{figs/active-topics}
 
     \caption{\textbf{Lecture and question topic overlap.} \textbf{A. Topic
-    weight variability}. The bar plots display the variance of each topic's
+    weight variability}. The bar plots display the variance in each topic's
     weight across lecture timepoints (top row) and questions (bottom row);
     colors denote topics. The top-weighted words from the most ``expressive''
     (i.e., variable across observations) topic from each lecture are displayed
@@ -384,12 +391,12 @@ much ``information''~\citep{Fish22} the lecture (or question set) reflects
 about that topic. For example, suppose a given topic is weighted on heavily
 throughout a lecture. That topic might be characteristic of some aspect or
 property of the lecture \textit{overall} (conceptual or otherwise), but unless
-the topic's weights changed in meaningful ways over time, the topic would be a
+the topic's weights change in meaningful ways over time, it would be a
 poor indicator of any \textit{specific} conceptual content in the lecture. We
-therefore also compared the variances in topic weights (across time or
+therefore also compared the variances in topic weights (over time and across
 questions) between the lectures and questions. The variability in topic
-expression (over time and across questions) was similar for the Lecture~1 video
-and questions ($r(13) = 0.824,~p<0.001$, 95\% CI~$= [0.696,~0.973]$) and the
+expression was similar for the Lecture~1 video
+and questions ($r(13) = 0.824,~p<0.001$, 95\% CI~$= [0.696,~0.973]$), and for the
 Lecture~2 video and questions ($r(13) = 0.801,~p<0.001$, 95\% CI~$=
 [0.539,~0.958]$). Simultaneously, as reported in Figure~\ref{fig:topics}B, the
 variabilities in topic expression across \textit{different} videos and
@@ -402,8 +409,8 @@ Figure~\topicWeights~indicate that a topic model fit to the videos' transcripts
 can also reveal correspondences (at a coarse scale) between the lectures and
 questions.
 
-While an individual lecture may be organized around a single broad theme at a
-coarse scale, at a finer scale, each moment of a lecture typically covers a
+An individual lecture may be organized around a single broad theme at a
+coarse scale, but at a finer scale, each moment of a lecture typically covers a
 narrower range of content. Given the correspondence we found between the
 variabilities in topic expression across moments of each lecture and questions
 from its corresponding set (Fig.~\ref{fig:topics}), we wondered whether the
@@ -416,10 +423,10 @@ and the topic weights for each second of its corresponding lecture, and found
 that each question appeared to be temporally specific
 (Fig.~\ref{fig:question-correlations}). In particular, most questions' topic
 vectors were maximally correlated with a well-defined (and relatively narrow)
-range of timepoints from their corresponding lectures, and the correlations
-fell off sharply outside of that range (Supp.~Figs.~\forcesCorrs,~\bosCorrs).
+range of timepoints from their corresponding lectures, outside of which the
+correlations fell off sharply (Supp.~Figs.~\forcesCorrs,~\bosCorrs).
 We also qualitatively examined the best-matching intervals for each question by
-comparing the question's text to the transcribed text from the most-correlated parts of the
+comparing the questions' text to the transcribed text from the most-correlated parts of the
 lectures (Supp.~Tab.~\matchTab). Despite that the questions were excluded from
 the text embedding model's training set, in general we found (through manual
 inspection) a close correspondence between the conceptual content that each
@@ -450,8 +457,8 @@ The ability to quantify how much each question is ``asking about'' the content
 from each moment of the lectures could enable high-resolution insights into
 participants' knowledge. Traditional approaches to estimating how much a
 student ``knows'' about the content of a given lecture entail administering some form of assessment (e.g., a quiz) and computing the
-proportion of correctly answered questions. But if two students receive
-identical scores on such an exam, might our modeling framework help us to gain more
+proportion of questions the student answered correctly. But if two students receive
+identical scores on such an assessment, might our modeling framework help us to gain more
 nuanced insights into the \textit{specific} content that each student has
 mastered (or failed to master)? For example, a student who misses three
 questions that were all about the same concept (e.g., concept $A$) will have
@@ -467,7 +474,7 @@ automatically) infer participants' knowledge at the scale of individual
 concepts (e.g., as captured by a single moment of a lecture).
 
 We developed a simple formula (Eqn.~\ref{eqn:prop}) for using a participant's
-responses to a small set of multiple-choice questions to estimate how much the
+responses to a small set of multiple-choice questions to estimate how much that
 participant ``knows'' about the concept reflected by any arbitrary coordinate
 $x$ in text embedding space (e.g., the content reflected by any moment in a
 lecture they had watched; see \nameref{subsec:traces}). Essentially, the
@@ -482,7 +489,7 @@ Figure~\ref{fig:knowledge-timeseries}A and C, we can apply this approach
 separately for the questions from each quiz participants took throughout the
 experiment. From just a few questions per quiz (see~\nameref{subsec:traces}),
 we obtain a high-resolution snapshot (at the time each quiz was taken) of what
-the participants knew about any moment's content, from either of the two
+participants knew about any moment's content, from either of the two
 lectures they watched (comprising a total of 1,100 samples across the two
 lectures).
 
@@ -505,7 +512,7 @@ lectures).
     Stars} lecture. \textbf{D. Average estimated knowledge about \textit{Birth
     of Stars}.} The panel is in the same format as Panel B, but here the
     knowledge estimates are for the content of the \textit{Birth of Stars}
-    lecture. All panels: error ribbons and error bars denote 95\% confidence
+    lecture. \textbf{All panels.} Error ribbons and error bars denote 95\% confidence
     intervals, estimated across participants.}
 
     \label{fig:knowledge-timeseries}
@@ -537,8 +544,8 @@ Specifically, since participants watched that lecture after taking Quiz~2 (but
 before Quiz~3), we hypothesized that their knowledge estimates should be
 relatively low on Quizzes~1 and 2, but should show a ``boost'' on Quiz~3.
 Consistent with this prediction, we found no reliable differences in estimated
-knowledge about the \textit{Birth of Stars} lecture content on Quizzes~1 versus
-2 ($t(49) = 1.013,~p = 0.316$), but the estimated knowledge was substantially
+knowledge about the \textit{Birth of Stars} lecture content on Quiz~1 versus
+2 ($t(49) = 1.013,~p = 0.316$), but estimated knowledge was substantially
 higher on Quiz~3 versus 2 ($t(49) = 10.561,~p < 0.001$) and Quiz~3 versus 1
 ($t(49) = 8.969,~p < 0.001$).
 
@@ -547,24 +554,23 @@ content tested by a given question, our estimates of their knowledge should
 carry some predictive information about whether they are likely to answer that
 question correctly or incorrectly. We developed a statistical approach to test
 this claim. For each quiz question a participant answered, in turn, we used
-Equation~\ref{eqn:prop} to estimate their knowledge at the given question's
-embedding space coordinate based on other questions that participant answered
+Equation~\ref{eqn:prop} to estimate their knowledge at that question's
+embedding-space coordinate based on other questions that participant answered
 on the same quiz. We repeated this for all participants, and for each of the
 three quizzes. Then, separately for each quiz, we fit a generalized linear
-mixed model (GLMM) with a logistic link function to explain the likelihood of
-correctly answering a question as a function of estimated knowledge for its
-embedding coordinate, while accounting for random variation among participants
-and questions (see \nameref{subsec:glmm}). To assess the predictive value of
-the knowledge estimates, we compared each GLMM to an analogous (i.e., nested)
-``null'' model that did not consider estimated knowledge using parametric
-bootstrap likelihood-ratio tests.
+mixed model (GLMM) with a logistic link function to explain the probability of
+correctly answering a question as a function of estimated knowledge at its
+embedding coordinate, while accounting for varied effects of individual
+participants and questions (see \nameref{subsec:glmm}). To assess the predictive
+value of the knowledge estimates, we compared each GLMM to an analogous (i.e.,
+nested) ``null'' model that assumed these estimates carried no predictive information using parametric bootstrap likelihood-ratio tests.
 
 \begin{figure}[tp]
     \centering
     \includegraphics[width=0.75\textwidth]{figs/predict-knowledge-questions}
     \caption{\textbf{Predicting success on held-out questions using estimated
     knowledge.} We used generalized linear mixed models (GLMMs) to model the
-    likelihood of correctly answering a quiz question as a function of
+    probability of correctly answering a quiz question as a function of
     estimated knowledge for its embedding coordinate (see
     \nameref{subsec:glmm}). Separately for each quiz (column), we examined this
     relationship based on three different sets of knowledge estimates:
@@ -588,7 +594,7 @@ bootstrap likelihood-ratio tests.
 We carried out three different versions of the analyses described above,
 wherein we considered different sources of information in our estimates of
 participants' knowledge for each quiz question. First, we estimated knowledge
-at each question's embedding coordinate using \textit{all} other questions
+at each held-out question's embedding coordinate using \textit{all} other questions
 answered by the same participant on the same quiz (``All questions'';
 Fig.~\ref{fig:predictions}, top row). This test was intended to assess the
 overall predictive power of our approach. Second, we estimated knowledge for
@@ -598,203 +604,161 @@ same participant and quiz) about that \textit{same} lecture
 intended to assess the \textit{specificity} of our approach by asking whether
 our predictions could distinguish between questions about different content
 covered by the same lecture. Third, we estimated knowledge for each question
-about one lecture using only questions (from the same participant and quiz)
+about one lecture using only the questions (from the same participant and quiz)
 about the \textit{other} lecture (``Across-lecture'';
 Fig.~\ref{fig:predictions}, bottom rows). This test was intended to assess the
 \textit{generalizability} of our approach by asking whether our predictions
-held across the content areas of the two lectures.
-
-In performing these analyses, our null hypothesis is that the knowledge
-estimates we compute based on the quiz questions' embedding coordinates do
-\textit{not} provide useful information about participants' abilities to answer
-those questions. What result might we expect to see if this is the case? To
-gain an intuition for this scenario, consider the expected outcome if we
-carried out these same analyses using a simple proportion-correct measure in
-lieu of our knowledge estimates. Suppose a participant correctly answered $n$
-out of $q$ questions on a given quiz. If we hold out a single
-\textit{correctly} answered question, the proportion of remaining questions
-answered correctly would be $\frac{n - 1}{q - 1}$. Whereas if we hold out a
-single \textit{incorrectly} answered question, the proportion of remaining
-questions answered correctly would be $\frac{n}{q - 1}$. In this way, the
-proportion of correctly answered remaining questions is always \textit{lower}
-when the held-out question was answered correctly than when it was answered
-incorrectly. Because our knowledge estimates are computed as a weighted version
-of this same proportion-correct score (where each held-in question's weight
-reflects its embedding-space distance from the held-out question; see
-Eqn.~\ref{eqn:prop}), if these weights are uninformative (e.g., randomly
-distributed), then we should expect to see this same inverse relationship
-between estimated knowledge and performance, on average. On the other hand, if
-the spatial relationships among the quiz questions' embeddings \textit{are}
-predictive of participants' knowledge about the questions' content, then we
-would expect \textit{higher} estimated knowledge for held-out correctly (versus
-incorrectly) answered questions.
-
-Before presenting our results, it is worth considering three possible
-explanations of why a participant might answer a given question correctly or
-incorrectly. One possibility is that the participant simply \textit{guessed}
-the answer. A second is that they selected the incorrect answer by mistake,
-despite ``knowing'' the correct answer (or vice versa). In both of these
-scenarios, the participant's knowledge about the question's content should be
-uninformative about their observed response. A third possibility is that the
-participant's response reflects their \textit{actual} knowledge about the
-question's content. In this case, we \textit{might} expect to see a positive
-relationship between the participant's knowledge and their likelihood of
-answering the question correctly. However, in order to see this positive
-relationship, the participant's knowledge must be structured in a way that is
-reflected (at least partially) by the embedding space. In other words, if the
-participant's performance reflects their true knowledge, but our text embedding
-space does not sufficiently capture the structure of that knowledge, then the
-knowledge estimates we generate will not be predictive of the participant's
-performance. In the extreme, if the embedding space is completely unstructured
-with respect to the content of the quiz questions, then we would expect to see
-the negative relationship between estimated knowledge and performance that we
-described above.
+could extend across the content areas of the two lectures. When estimating
+participants' knowledge, we used a rebalancing procedure to ensure that (for a
+given participant and quiz) their knowledge estimates for correctly and
+incorrectly answered questions were computed from the same underlying proportion
+of correctly answered questions (see~\nameref{subsec:glmm}).
 
 When we fit a GLMM to estimates of participants' knowledge for each Quiz~1
-question based on all other Quiz~1 questions, we observed an outcome consistent
-with our null hypothesis: higher estimated knowledge at the embedding
-coordinate of a held-out question was associated with a lower likelihood of
-answering the question correctly (odds ratio $(OR) = 0.136$, likelihood-ratio
-test statistic $(\lambda_{LR}) = 19.749$, 95\%\ $\textnormal{CI} = [14.352,\
-26.545],\ p < 0.001$). This outcome suggests that our knowledge estimates do
-\textit{not} provide useful information about participants' Quiz~1 performance
-when we aggregated across all question content areas. We speculated that this
-might either indicate that the knowledge estimates are uninformative in
-general, or about Quiz~1 performance in particular. This would be expected, for
-example, if participants were guessing about the answers to the Quiz~1
-questions (prior to having watched either lecture). When we repeated this
-analysis for Quizzes~2 and~3, we found that higher estimated knowledge
-for a given question predicted a \textit{greater} likelihood of answering it correctly
-(Quiz~2: $OR = 2.905,\ \lambda_{LR} = 17.333,\ 95\%\ \textnormal{CI} =
-[14.966,\ 29.309],\ p = 0.001$; Quiz~3: $OR = 3.238,\ \lambda_{LR} = 6.882,\
-95\%\ \textnormal{CI} = [6.228,\ 8.184],\ p = 0.016$). Taken together, these
-results suggest that our knowledge estimates reliably predict participants'
-performance on individual held-out quiz questions, but only after participants
-have received at least some training.
+question based on all other Quiz~1 questions, we found that higher estimated
+knowledge for a given question predicted a greater likelihood of answering it
+correctly (odds ratio $(OR) = 8.126$, 95\%\ $\textnormal{CI} = [3.116,\
+20.123]$, likelihood-ratio test statistic $(\lambda_{LR}) = 17.002,\ p <
+0.001$). This relationship held when we repeated this analysis for Quiz~2 ($OR
+= 14.902,\ 95\%\ \textnormal{CI} = [4.976,\ 39.807],\ \lambda_{LR} = 25.408,\
+p < 0.001$) and again for Quiz~3 ($OR = 37.409,\ 95\%\ \textnormal{CI} =
+[10.425,\ 107.145],\ \lambda_{LR} = 40.948,\ p < 0.001$). Taken together, these
+results suggest that our knowledge estimates can reliably predict participants'
+performance on individual questions when they incorporate information from all
+(other) quiz content.
 
-We observed a similar pattern of results when used this approach to estimate
-participants' knowledge about held-out questions from one lecture using their
-performance on other questions from the \textit{same} lecture. Specifically,
-for Quiz~1 questions (i.e., prior to watching either), participants' estimated
-knowledge for the embedding coordinates of held-out \textit{Four Fundamental
-Forces}-related questions estimated using other \textit{Four Fundamental
-Forces}-related questions did not reliably predict whether those questions were
-answered correctly ($OR = 1.891,\ \lambda_{LR} = 2.293,\ 95\%\ \textnormal{CI}
-= [2.091,\ 2.622],\ p = 0.138$). The same was true of knowledge estimates for
-held-out \textit{Birth of Stars}-related questions based on other \textit{Birth
-of Stars}-related questions ($OR = 0.722,\ \lambda_{LR} = 5.115,\ 95\%\
-\textnormal{CI} = [0.094,\ 0.146],\ p = 0.738$). As in our analysis that
-included all questions, we speculate that these ``null'' results might reflect
-some degree of random guessing on Quiz~1. When we repeated these within-lecture
-analyses using questions from Quiz~2 (which participants took immediately after
-viewing \textit{Four Fundamental Forces} but prior to viewing \textit{Birth of
-Stars}), we found that they now reliably predicted success on \textit{Four
-Fundamental Forces}-related questions ($OR = 9.023,\ \lambda_{LR} = 18.707,\
-95\%\ \textnormal{CI} = [10.877,\ 22.222],\ p < 0.001$) but not on
-\textit{Birth of Stars}-related questions ($OR = 0.306,\ \lambda_{LR} = 5.115,\
-95\%\ \textnormal{CI} = [4.624,\ 5.655],\ p = 0.054$). Here, we speculate that
-participants might have been guessing about the \textit{Birth of Stars} content
-(e.g., prior to having watched it), whereas they might have been drawing on
-some structured knowledge about the \textit{Four Fundamental Forces} content
-(e.g., from having just watched it). When we applied this approach to Quiz~3
-responses (given immediately after viewing \textit{Birth of Stars}), we found
-that within-lecture knowledge estimates for \textit{Birth of Stars}-related
-questions could now reliably predict success on those questions ($OR = 5.467,\
-\lambda_{LR} = 10.670,\ 95\%\ \textnormal{CI} = [7.998, 12.532],\ p = 0.005$).
-However, within-lecture knowledge estimates for \textit{Four Fundamental
-Forces} questions answered on Quiz~3 were no longer directly related to the
-likelihood of successfully answering them and instead exhibited the inverse
-relationship we would expect to arise from unstructured knowledge (with respect
-to the embedding space; $OR = 0.013,\ \lambda_{LR} = 14.648,\ 95\%\
-\textnormal{CI} = [10.695, 23.096],\ p < 0.001$). Speculatively, we suggest
-that this may reflect participants forgetting some of the \textit{Four
-Fundamental Forces} content (e.g., perhaps in favor of prioritizing encoding
-the just-watched \textit{Birth of Stars} content in preparation for the third
-quiz). If this forgetting happens in a relatively ``random'' way (with respect
-to spatial distance within the embedding space), then it could explain why some
-held-out questions about \textit{Four Fundamental Forces} were answered
-incorrectly, even if questions at nearby coordinates (i.e., about similar
-content) were answered correctly. This might lead our approach to over-estimate
-knowledge for held-out questions about ``forgotten'' knowledge that
-participants answered incorrectly. Taken together, these within-lecture results
-suggest that our approach can distinguish between questions about different
-content covered by a single lecture when participants have sufficiently
-structured knowledge about its contents, though this specificity may decrease
-with time since the relevant material was learned.
+We observed a similar set of results when we restricted our estimates of
+participants' knowledge to consider only
+their performance on other questions about the \textit{same} lecture.
+Specifically, for Quiz~1, participants' knowledge of \textit{Four Fundamental
+Forces}-related questions, estimated from their performance on other
+\textit{Four Fundamental Forces}-related questions, was predictive of their
+ability to answer those questions correctly ($OR = 15.934,\ 95\%\
+\textnormal{CI} = [5.173,\ 38.005],\ \lambda_{LR} = 40.971,\ p = 0.001$). The
+same was true of participants' estimated knowledge for \textit{Birth of
+Stars}-related questions based on their performance on other \textit{Birth of
+Stars}-related questions ($OR = 9.775,\ 95\%\ \textnormal{CI} = [2.93,\
+25.08],\ \lambda_{LR} = 13.924,\ p = 0.001$). These results also held for
+participants' Quiz~2 responses (\textit{Four Fundamental Forces}: $OR =
+35.126,\ 95\%\ \textnormal{CI} = [5.113,\ 123.868],\ \lambda_{LR} = 32.251,\
+p < 0.001$; \textit{Birth of Stars}: $OR = 4.717,\ 95\%\ \textnormal{CI} =
+[2.021,\ 9.844],\ \lambda_{LR} = 16.788,\ p < 0.001$) and partially for 
+their Quiz~3 responses (\textit{Birth of Stars}: $OR = 16.902,\ 95\%\ 
+\textnormal{CI} = [3.353,\ 53.265],\ \lambda_{LR} = 23.233,\ p < 0.001$; 
+\textit{Four Fundamental Forces}: $OR = 2.485,\ 95\%\ \textnormal{CI} =
+[0.724,\ 8.366],\ \lambda_{LR} = 1.984,\ p = 0.170$). Speculatively, the Quiz~3 
+results suggest that the within-lecture knowledge estimates may be 
+susceptible to ceiling effects in
+participants' quiz performance. On Quiz~3, after viewing both lectures, no
+participant answered more than three \textit{Four Fundamental Forces}-related
+questions incorrectly, and all but five participants (out of 50) answered two or
+fewer incorrectly. (This was the only subset of questions about either lecture, 
+across all three quizzes, for which this was true.) Consequently, for 90\% of 
+participants, our within-lecture estimates of their knowledge for \textit{Four 
+Fundamental Forces}-related questions that they answered incorrectly leveraged 
+information from at most a single other question they were \textit{not} able to 
+correctly answer. This likely hampered our ability to accurately characterize 
+the specific (and by the time they took Quiz~3, relatively few) aspects of the 
+lecture content these participants did \textit{not} know about, and successfully 
+distinguish them from the far more numerous aspects of the lecture content they 
+now \textit{did} know about. Taken together, these within-lecture results suggest that our 
+knowledge estimates can reliably distinguish between questions about different
+content covered by a single lecture, provided there is sufficient diversity in 
+participants' quiz responses to extract meaningful information about both what 
+they know and what they do not know.
 
-Finally, we used this approach to estimate participants' knowledge about
-held-out questions from one lecture using their performance on questions from
-the \textit{other} lecture. Here we again observed a similar pattern of
-results, though with some notable differences. On Quiz~1, we found that
-participants' abilities to correctly answer questions about \textit{Four
-Fundamental Forces} could be predicted from their responses to questions about
-\textit{Birth of Stars} ($OR = 1.896,\ \lambda_{LR} = 7.205,\ 95\%\
-\textnormal{CI} = [6.224, 7.524],\ p = 0.038$) and similarly, that their
-ability to correctly answer \textit{Birth of Stars}-related questions could be
-predicted from their responses to \textit{Four Fundamental Forces}-related
-questions ($OR = 1.522,\ \lambda_{LR} = 6.448,\ 95\%\ \textnormal{CI} = [5.656,
-6.843],\ p = 0.042$). Given the results from our analyses that included all
-questions and within-lecture predictions, we were surprised to find that the
-knowledge estimates could reliably (if weakly) predict participants'
-performance across content from different lectures. It is possible that this
-result reflects a combination of random guessing prior to training (leading to
-a weak effect size), alongside some coarse-scale structured knowledge that
-participants had about the content prior to watching either lecture. When we
-repeated this analysis using questions from Quiz~2, we found participants'
-responses to \textit{Four Fundamental Forces}-related questions did
-\textit{not} reliably predict their success on \textit{Birth of Stars}-related
-questions ($OR = 1.865,\ \lambda_{LR} = 3.205,\ 95\%\ \textnormal{CI} = [3.027,
-3.600],\ p = 0.124$), nor did their responses to \textit{Birth of
-Stars}-related questions reliably predict their success on \textit{Four
-Fundamental Forces}-related questions ($OR = 3.490,\ \lambda_{LR} = 3.266,\
-95\%\ \textnormal{CI} = [3.033, 3.866],\ p = 0.093$). These ``prediction
-failures'' appear to come from the fact that any signal derived from
-participants' knowledge about the content of the \textit{Birth of Stars}
-lecture (prior to watching it) is overwhelmed by the much more dramatic increase in
-their knowledge about the content of the \textit{Four Fundamental Forces}
-(which they watched just prior to taking Quiz~2). This is reflected in their
-Quiz~2 performance for questions about each lecture (mean proportion correct
-for \textit{Four Fundamental Forces}-related questions on Quiz~2: $0.77$; mean
-proportion correct for \textit{Birth of Stars}-related questions on Quiz~2:
-$0.36$). When we carried out these across-lecture knowledge predictions using
-questions from Quiz~3 (when participants had now viewed \textit{both}
-lectures), we could again reliably predict success on questions about both
-\textit{Four Fundamental Forces} ($OR = 11.294),\ \lambda_{LR} = 11.055,\ 95\%\
-\textnormal{CI} = [9.126, 18.476],\ p = 0.003$) and \textit{Birth of Stars}
-($OR = 7.302,\ \lambda_{LR} = 7.068,\ 95\%\ \textnormal{CI} = [6.490, 8.584],\
-p = 0.016$) using responses to questions about the other lecture's content.
-Across all three versions of these analyses, our results suggest that (by and
-large) our knowledge estimates can reliably predict participants' abilities to
-answer individual quiz questions, distinguish between questions about similar
-content, and generalize across content areas, provided that participants' quiz
-responses reflect a minimum level of ``real'' knowledge about both content on
-which these predictions are based and that for which they are made.
+Finally, we estimated participants' knowledge for each question about each
+lecture using only their performance on questions (from the same quiz) about the
+\textit{other} lecture. This is an especially stringent test of our approach.
+Our primary assumption in constructing our knowledge estimates is that knowledge
+about a given concept is similar to knowledge about other concepts that are
+nearby in the embedding space. However, our analyses in Figure~\ref{fig:topics}
+and Supplementary Figure~\topicWeights\ show that the embeddings of content from
+the two lectures (and of their associated quiz questions) are largely distinct 
+from each other. Therefore, any predictive power of these across-lecture 
+knowledge estimates must overcome large distances in the embedding space. To put 
+this in concrete terms, this test requires predicting participants' performance 
+on individual, highly specific questions about the formation of stars from their 
+responses to just five multiple-choice questions about the fundamental forces of 
+the universe (and vice versa).
+
+We found that, before viewing either lecture (i.e., on Quiz~1), participants'
+abilities to answer \textit{Four Fundamental Forces}-related questions could
+not be predicted from their responses to \textit{Birth of Stars}-related
+questions ($OR = 1.896,\ 95\%\ \textnormal{CI} = [0.419,\ 9.088],\ \lambda_{LR}
+= 0.712,\ p = 0.404$), nor could their abilities to answer \textit{Birth of
+Stars}-related questions be predicted from their responses to \textit{Four
+Fundamental Forces}-related questions ($OR = 1.522,\ 95\%\ \textnormal{CI} =
+[0.332,\ 6.835],\ \lambda_{LR} = 0.286,\ p = 0.611$). Similarly, we found that
+participants' performance on questions about either lecture could not be
+predicted given their responses to questions about the other lecture after
+viewing \textit{Four Fundamental Forces} but before viewing \textit{Birth of
+Stars} (i.e., on Quiz~2; \textit{Four Fundamental Forces} questions given
+\textit{Birth of Stars} questions: $OR = 3.49,\ 95\%\ \textnormal{CI} =
+[0.739,\ 12.849],\ \lambda_{LR} = 3.266,\ p = 0.083$; \textit{Birth of Stars}
+questions given \textit{Four Fundamental Forces} questions: $OR = 2.199,\ 95\%\
+\textnormal{CI} = [0.711,\ 5.623],\ \lambda_{LR} = 2.304,\ p = 0.141$). Only
+after viewing \textit{both} lectures (i.e., on Quiz~3) did these across-lecture
+knowledge estimates reliably predict participants' success on individual quiz
+questions (\textit{Four Fundamental Forces} questions given \textit{Birth of
+Stars} questions: $OR = 11.294,\ 95\%\ \textnormal{CI} = [1.375,\ 47.744],\
+\lambda_{LR} = 10.396,\ p < 0.001$; \textit{Birth of Stars} questions given
+\textit{Four Fundamental Forces} questions: $OR = 7.302,\ 95\%\ \textnormal{CI}
+= [1.077,\ 44.879],\ \lambda_{LR} = 4.708,\ p = 0.038$). Taken together, these
+results suggest that our ability to form estimates solely across different
+content areas is more limited than our ability to form estimates that
+incorporate responses to questions from both content areas (as in 
+Fig.~\ref{fig:predictions}, ``All questions'') or within a single content area 
+(as in Fig.~\ref{fig:predictions}, ``Within-lecture''). However, if participants 
+have recently received some training on both content areas, the knowledge 
+estimates appear to be informative even across content areas.
+
+We speculate that these ``Across-lecture'' results might relate to some of our
+earlier work on the nature of semantic representations~\citep{MannKaha12}. In 
+that work, we asked whether semantic similarities could be captured through 
+behavioral measures, even if participants' ``true'' internal representations 
+differed from the embeddings used to \textit{characterize} their behaviors. We 
+found that mismatches between an individual's internal representation of a set 
+of concepts and the representation used to characterize their behaviors can lead 
+to underestimates of how semantically driven those behaviors are. Along similar 
+lines, we suspect that in our current study, participants' conceptual 
+representations may initially differ from the representations learned by our 
+topic model. (Although the topic model's representations are still 
+\textit{related} to participants' initial internal representations; otherwise we 
+would have found that knowledge estimates derived from Quizzes~1 and 2 had no 
+predictive power in the other tests we conducted.) After watching both lectures, 
+however, participants' internal representations may become more aligned with the 
+embeddings used to estimate their knowledge (since those embeddings were trained 
+on the lectures' transcripts). This could help explain why the knowledge 
+estimates derived from Quizzes~1 and 2 (before both lectures had been watched) 
+do not reliably predict performance across content areas, whereas estimates 
+derived from Quiz~3 do.
 
 That the knowledge predictions derived from the text embedding space reliably
-distinguish between held-out correctly versus incorrectly answered questions
-(Fig.~\ref{fig:predictions}) suggests that spatial relationships within this
+distinguish between correctly and incorrectly answered held-out questions
+(Fig.~\ref{fig:predictions}) suggests that geometric relationships within this
 space can help explain what participants know. But how far does this
 explanatory power extend? For example, suppose we know that a participant
 correctly answered a question at embedding coordinate $x$. As we move farther
 away from $x$ in the embedding space, how does the likelihood that the
 participant knows about the content at a given location ``fall off'' with
 distance? Conversely, suppose the participant instead answered that same
-question \textit{in}correctly. Again, as we move farther away from $x$ in the
+question \textit{incorrectly}. Again, as we move farther away from $x$ in the
 embedding space, how does the likelihood that the participant does \textit{not}
-know about a coordinate's content change with distance? We reasoned that,
+know about the content at a given coordinate change with distance? We reasoned that,
 assuming our embedding space is capturing something about how individuals
 actually organize their knowledge, a participant's ability to answer questions
 embedded very close to $x$ should tend to be similar to their ability to answer
-the question embedded \textit{at} $x$. Whereas at another extreme, once we
+the question embedded \textit{at} $x$. But once we
 reach some sufficiently large distance from $x$, our ability to infer whether
 or not a participant will correctly answer a question based on their ability to
 answer the question at $x$ should be no better than guessing based on their
 \textit{overall} proportion of correctly answered questions. In other words,
-beyond the maximum distance at which the participant's ability to answer the
+beyond the maximum distance at which a participant's ability to answer the
 question at $x$ is informative of their ability to answer a second question at
-location $y$, then guessing the outcome at $y$ based on $x$ should be no more
-successful than guessing based on a measure that does not consider embedding
-space distance.
+location $y$, guessing the outcome at $y$ based on the outcome at $x$ should be no more
+successful than guessing based on a measure that does not consider
+embedding-space distance.
 
 \begin{figure}[t]
     \centering
@@ -820,40 +784,37 @@ space distance.
     \label{fig:smoothness}
 \end{figure}
 
-With these ideas in mind, we asked: conditioned on answering a question
-correctly, what proportion of all questions (within some radius, $r$, of that
-question's embedding coordinate) were answered correctly? We plotted this
-proportion as a function of $r$. Similarly, we could ask, conditioned on
-answering a question incorrectly, how the proportion of correct responses
-changed with $r$. As shown in Figure~\ref{fig:smoothness}, we found that quiz
-performance falls off smoothly with distance, and the ``rate'' of the falloff
-does not appear to change across the different quizzes, as measured by the
+With these ideas in mind, we asked: conditioned on a participant's ability to
+answer a given question correctly, what proportion of all questions within some
+radius $r$ of its embedding coordinate were they able to answer correctly? We
+plotted this proportion as a function of $r$ for questions that participants
+answered correctly, and for questions they answered incorrectly.
+As shown in Figure~\ref{fig:smoothness}, we found that quiz
+performance falls off smoothly with distance, and the ``rate'' at which it falls off
+does not appear to differ across quizzes, as measured by the
 distance at which performance becomes statistically indistinguishable from a
-simple proportion correct score (see~\nameref{subsec:smoothness}). This
-suggests that, at least within the region of text embedding space covered by
-the questions our participants answered (and as characterized using our topic
+simple proportion-correct score (see~\nameref{subsec:smoothness}). This
+suggests that, at least within the region of text embedding space spanned by
+the questions our study's participants answered (and as characterized using our topic
 model), the rate at which knowledge changes with distance is relatively
 constant, even as participants' overall level of knowledge varies across
-quizzes or regions of the embedding space.
+quizzes and regions of the embedding space.
 
-Knowledge estimates need not be limited to the content of the lectures. As
-illustrated in Figure~\ref{fig:knowledge-maps}, our general approach to
-estimating knowledge from a small number of quiz questions may be extended to
-\textit{any} content, given its text embedding coordinate. To visualize how
-knowledge ``spreads'' through text embedding space to content beyond the
-lectures participants watched, we first fit a new topic model to the lectures'
-sliding windows with $k = 100$~topics. Conceptually, increasing the
-number of topics used by the model functions to increase the ``resolution'' of
-the embedding space, providing a greater ability to estimate knowledge for
-content that is highly similar to (but not precisely the same as) that
-contained in the two lectures. We note that we used these 2D maps solely for
-visualization; all relevant comparisons, distance computations, and statistical
-tests we report above were carried out in the original 15-dimensional space,
-using the 15-topic model. Aside from increasing the number of topics from 15 to
-100, all other procedures and model parameters were carried over from the
-preceding analyses. As in our other analyses, we resampled each lecture's topic
-trajectory to 1~Hz and projected each question into a shared text embedding
-space.
+Knowledge estimates need not be limited to the contents of these particular
+lectures and quizzes. As illustrated in Figure~\ref{fig:knowledge-maps}, our
+general approach to estimating knowledge from a small number of quiz questions
+may be extended to \textit{any} content, given its text embedding coordinate. To
+visualize how knowledge ``spreads'' through text embedding space to content
+beyond the lectures participants watched and the questions they answered, we
+first fit a new topic model to the lectures' sliding windows with $k =
+100$~topics. Conceptually, increasing the number of topics used by the model
+functions to increase the ``resolution'' of the embedding space, providing a
+greater ability to estimate knowledge for content that is highly similar to (but
+not precisely the same as) that contained in the two lectures used to train the
+model. Aside from increasing the number of topics from 15 to 100, all other procedures
+and model parameters were carried over from the preceding analyses. As in our
+other analyses, we resampled each lecture's topic trajectory to 1~Hz and
+projected each question into a shared text embedding space.
 
 \begin{figure}[tp]
     \centering
@@ -861,12 +822,12 @@ space.
 
     \caption{\textbf{Mapping out the geometry of knowledge and learning.}
     \textbf{A. Average ``knowledge maps'' estimated using each quiz.} Each map
-    displays a 2D projection of the estimated knowledge about the content
+    displays a 2D projection of participants' estimated knowledge about the content
     reflected by \textit{all} regions of topic space (see
     \nameref{subsec:knowledge-maps}). The topic trajectories of the two
-    lectures are indicated by dotted lines (blue: Lecture 1; green: Lecture 2),
+    lectures are indicated by dotted lines (blue: Lecture~1; green: Lecture~2),
     and the coordinates of each question are indicated by dots (light blue:
-    Lecture 1-related; light green: Lecture 2-related; purple: general physics
+    Lecture~1-related; light green: Lecture~2-related; purple: general physics
     knowledge). Each map reflects an average across all participants. For
     individual participants' maps, see Supplementary
     Figures~\individualKnowledgeMapsA,~\individualKnowledgeMapsB,
@@ -883,7 +844,7 @@ space.
     the weighted blend of words underlying the topic proportions represented at
     the corresponding colored star's location on the maps. In each word cloud,
     the words' relative sizes correspond to their relative weights at the
-    starred location, and their colors indicate their relative weights in
+    starred location, and their colors indicate their relative weights in the
     \textit{Four Fundamental Forces} (blue) versus \textit{Birth of Stars}
     (green) lectures, on average, across all timepoints' topic vectors.}
 
@@ -891,17 +852,20 @@ space.
     \end{figure}
 
 We projected the resulting 100-dimensional topic vectors (for each second of
-video and each quiz question) onto a shared 2-dimensional plane (see
+the lectures and each quiz question) onto a shared 2-dimensional plane (see
 \nameref{subsec:knowledge-maps}). Next, we sampled points from a $100 \times
 100$ grid of coordinates that evenly tiled a rectangle enclosing the 2D
-projections of the videos and questions. We used
+projections of the lectures and questions. We then used
 Equation~\ref{eqn:rbf-knowledge} to estimate participants' knowledge at each of
 these 10,000 sampled locations, and averaged these estimates across
 participants to obtain an estimated average \textit{knowledge map}
 (Fig.~\ref{fig:knowledge-maps}A). Intuitively, the knowledge map constructed
-from a given quiz's responses provides a visualization of how ``much''
+from a given quiz's responses provides a visualization of ``how much''
 participants knew about any content expressible by the fitted text embedding
-model at the point in time when they completed that quiz.
+model at the point in time when they completed that quiz. 
+We note that we used these 2D maps solely for visualization; all relevant
+comparisons, distance computations, and statistical tests we report above were
+carried out in the original 15-dimensional space, using the 15-topic model.
 
 Several features of the resulting knowledge maps are worth noting. The average
 knowledge map estimated from Quiz~1 responses (Fig.~\ref{fig:knowledge-maps}A,
@@ -925,8 +889,8 @@ Another way of visualizing these content-specific increases in knowledge after
 participants viewed each lecture is displayed in
 Figure~\ref{fig:knowledge-maps}B. Taking the point-by-point difference between
 the knowledge maps estimated from responses to a successive pair of quizzes
-yields a \textit{learning map} that describes the \textit{change} in knowledge
-estimates from one quiz to the next. These learning maps highlight that the
+yields a \textit{learning map} that describes the \textit{change} in estimated
+knowledge from one quiz to the next. These learning maps highlight that the
 estimated knowledge increases we observed across maps were specific to the
 regions around the embeddings of each lecture, in turn.
 
@@ -940,12 +904,12 @@ the top-weighted words from the blends of topics reconstructed from three
 example locations on the maps (Fig.~\ref{fig:knowledge-maps}C): one point near
 the \textit{Four Fundamental Forces} embedding (yellow), a second point near
 the \textit{Birth of Stars} embedding (orange), and a third point between the
-two lectures' embeddings (pink). As shown in the word clouds in the panel, the
+two lectures' embeddings (pink). As shown in the word clouds in Panel C, the
 top-weighted words at the example coordinate near the \textit{Four Fundamental
 Forces} embedding tended to be weighted more heavily by the topics expressed in
 that lecture. Similarly, the top-weighted words at the example coordinate near
 the \textit{Birth of Stars} embedding tended to be weighted more heavily by the
-topics expressed in \textit{that} lecture. And the top-weighted words at the
+topics expressed in \textit{that} lecture. The top-weighted words at the
 example coordinate between the two lectures' embeddings show a roughly even mix
 of words most strongly associated with each lecture.
 
@@ -958,110 +922,107 @@ the conceptual knowledge probed by individual quiz questions to the
 corresponding moments in lecture videos when those concepts were presented
 (Fig.~\ref{fig:question-correlations}). Next, we demonstrate how we can
 estimate moment-by-moment ``knowledge traces'' that reflect the degree of
-knowledge participants have about each video's time-varying content, and
+knowledge participants have about each lecture's time-varying content, and
 capture temporally specific increases in knowledge after viewing each lecture
-(Fig.~\ref{fig:knowledge-timeseries}). We also show that these knowledge
-estimates can generalize to held-out questions (Fig.~\ref{fig:predictions}).
-Finally, we use our framework to construct visual maps that provide snapshot
-estimates of how much participants know about any concept within the scope of
-our text embedding model, and how much their knowledge of those concepts
-changes with training (Fig.~\ref{fig:knowledge-maps}).
+(Fig.~\ref{fig:knowledge-timeseries}). We then show that these knowledge
+estimates can generalize to held-out questions and predict participants'
+abilities to answer them correctly (Fig.~\ref{fig:predictions}). Finally, we use
+our framework to construct visual maps that provide snapshot estimates of how
+much participants know about any concept within the scope of our text embedding
+model, and how much their knowledge of those concepts changes with training
+(Fig.~\ref{fig:knowledge-maps}).
 
-We view our work as making several contributions to the study of how people
-acquire conceptual knowledge. First, from a methodological standpoint, our
-modeling framework provides a systematic means of mapping out and
-characterizing knowledge in maps that have infinite (arbitrarily many) numbers
-of coordinates, and of ``filling out'' those maps using relatively small
-numbers of multiple choice quiz questions. Our experimental finding that we can
-use these maps to predict responses to held-out questions has several
-psychological implications as well. For example, concepts that are assigned to
-nearby coordinates by the text embedding model also appear to be ``known to a
-similar extent'' (as reflected by participants' responses to held-out
-questions; Fig.~\ref{fig:predictions}). This suggests that participants also
+Our work makes several contributions to the study of how people acquire
+conceptual knowledge. First, from a methodological standpoint, our modeling
+framework provides a systematic means of mapping out and characterizing
+knowledge in maps that have infinite (arbitrarily many) numbers of coordinates,
+and of ``filling out'' those maps using relatively small numbers of 
+multiple-choice quiz questions. Our experimental finding that we can use these 
+maps to predict success on held-out questions has several psychological 
+implications as well. For example, concepts that are assigned to nearby 
+coordinates by the text embedding model also appear to be ``known to a similar 
+extent'' (as reflected by participants' responses to held-out questions;
+Fig.~\ref{fig:predictions}). This suggests that participants also
 \textit{conceptualize} similarly the content reflected by nearby embedding
-coordinates. How participants' knowledge falls off with spatial distance is
+coordinates. How participants' knowledge ``falls off'' with spatial distance is
 captured by the knowledge maps we infer from their quiz responses
 (e.g., Figs.~\ref{fig:smoothness},~\ref{fig:knowledge-maps}). In other words,
 our study shows that knowledge about a given concept implies knowledge about
-related concepts, and we also show how estimated knowledge falls off with
-distance in text embedding space.
+related concepts, and how far this implication extends in text embedding space.
 
 In our study, we characterize the ``coordinates'' of participants' knowledge
-using a relatively simple ``bag of words'' text embedding model~\citep[LDA;
+using a relatively simple ``bag-of-words'' text embedding model~\citep[LDA;
 ][]{BleiEtal03}. More sophisticated text embedding models, such as
-transformer-based models~\citep{ViswEtal17, DevlEtal18, ChatGPT, TouvEtal23}
-can learn complex grammatical and semantic relationships between words,
-higher-order syntactic structures, stylistic features, and more. We considered
-using transformer-based models in our study, but we found that the text
-embeddings derived from these models were surprisingly uninformative with
-respect to differentiating or otherwise characterizing the conceptual content
-of the lectures and questions we used. We suspect that this reflects a broader
-challenge in constructing models that are high-resolution within a given domain
-(e.g., the domain of physics lectures and questions) \textit{and} sufficiently
-broad so as to enable them to cover a wide range of domains. For example, we
-found that the embeddings derived even from much larger and more modern models
-like BERT~\citep{DevlEtal18}, GPT~\citep{ViswEtal17}, LLaMa~\citep{TouvEtal23},
-and others that are trained on enormous text corpora, end up yielding poor
-resolution within the content space spanned by individual course videos
-(Supp.~Fig.~\ldaVsBERT). Whereas the LDA embeddings of the lectures and
-questions are ``near'' each other (i.e., the convex hull enclosing the two
-lectures' trajectories is highly overlapping with the convex hull enclosing the
-questions' embeddings), the BERT embeddings of the lectures and questions are
-instead largely distinct (top row of Supp.~Fig.~\ldaVsBERT). The LDA embeddings
-of the questions for each lecture and the corresponding lecture's trajectory
-are also similar. For example, as shown in Fig.~\ref{fig:sliding-windows}C, the
-LDA embeddings for \textit{Four Fundamental Forces} questions (blue dots)
-appear closer to the \textit{Four Fundamental Forces} lecture trajectory (blue
-line), whereas the LDA embeddings for \textit{Birth of Stars} questions (green
-dots) appear closer to the \textit{Birth of Stars} lecture trajectory (green
-line). The BERT embeddings of the lectures and questions do not show this
-property (Supp.~Fig.~\ldaVsBERT). We also examined per-question ``content
-matches'' between individual questions and individual moments of each lecture
-(Figs.~\ref{fig:question-correlations},~\ldaVsBERT). The time series plot of
-individual questions' correlations are different from each other when computed
-using LDA (e.g., the traces can be clearly visually separated), whereas the
-correlations computed from BERT embeddings of different questions all look very
-similar. This tells us that LDA is capturing some differences in content
-between the questions, whereas BERT is not. The time series plots of individual
-questions' correlations have clear ``peaks'' when computed using LDA, but not
-when computed using BERT. This tells us that LDA is capturing a ``match''
-between the content of each question and a relatively well-defined time window
-of the corresponding lectures. The BERT embeddings appear to blur together the
-content of the questions versus specific moments of each lecture. Finally, we
-also compared the pairwise correlations between embeddings of questions within
-versus across content areas (i.e., content covered by the individual lectures,
-lecture-specific questions, and by the ``general physics knowledge''
-questions). The LDA embeddings show a strong contrast between same-content
-embeddings versus across-content embeddings. In other words, the embeddings of
-questions about the \textit{Four Fundamental Forces} material are highly
-correlated with the embeddings of the \textit{Four Fundamental Forces} lecture,
-but not with the embeddings of \textit{Birth of Stars}, questions about
-\textit{Birth of Stars}, or general physics knowledge questions. We see a
-similar pattern with the LDA embeddings of the \textit{Birth of Stars}
-questions (Fig.~\ref{fig:topics}, Supp.~Fig.~\topicWeights). In contrast, the
-BERT embeddings are all highly correlated with each other (Supp.
-Fig.~\ldaVsBERT). Taken together, these comparisons illustrate how LDA (trained
-on the specific content in question) provides both coverage of the requisite
-material and specificity at the level of the content covered by individual
-questions. BERT, on the other hand, essentially assigns both lectures and all
-of the questions (which are all broadly about ``physics'') into a tiny region
-of its embedding space, thereby blurring out meaningful distinctions between
-different specific concepts covered by the lectures and questions. We note that
-these are not criticisms of BERT (or other large language models trained on
-large and diverse corpora). Rather, our point is that simple fine-tuned models
-trained on a relatively small but specialized corpus can outperform much more
-complicated models trained on much larger corpora, when we are specifically
-interested in capturing subtle conceptual differences at the level of a single
-course lecture or question. Of course if our goal had been to find a model that
-generalized to many different content areas, we would expect our approach to
-perform comparatively poorly relative to BERT or other much larger models. We
-suggest that bridging the tradeoff between high resolution within each content
-area versus the ability to generalize to many different content areas will be
-an important challenge for future work in this domain.
+transformer-based models~\citep{ViswEtal17, DevlEtal18, ChatGPT, TouvEtal23},
+can leverage additional textual information such as complex grammatical and 
+semantic relationships between words, higher-order syntactic structures, 
+stylistic features, and more. We considered using transformer-based models in 
+our study, but we found that the text embeddings derived from these models were 
+surprisingly uninformative with respect to differentiating or otherwise 
+characterizing the conceptual content of the lectures and questions we used 
+(see \suppResults). We suspect that this reflects a broader challenge in 
+constructing models that are both high-resolution within a given domain (e.g., 
+the domain of physics lectures and questions) \textit{and} sufficiently broad 
+as to enable them to cover a wide range of domains. Essentially, 
+``larger'' language models learn more complex features of language through 
+training on enormous and diverse text corpora. But as a result, their 
+embedding spaces also ``span'' an enormous and diverse range of conceptual 
+content, sacrificing a degree of specificity in their capacities to distinguish 
+subtle conceptual differences within a more narrow range of content. 
+In comparing our LDA model (trained specifically on the lectures used in our 
+study) to a larger transformer-based model (BERT), we found that our LDA model provides 
+both coverage of the requisite material and specificity at the level of 
+individual questions, while BERT essentially relegates the contents of both 
+lectures and all quiz questions (which are all broadly about ``physics'') to a 
+tiny region of its embedding space, thereby blurring out meaningful distinctions 
+between different specific concepts covered by the lectures and questions 
+(Supp.~Fig.~\ldaVsBERT). We note that these are not criticisms of BERT, nor of 
+other large language models trained on large and diverse corpora. Rather, our 
+point is that simpler models trained on relatively small but specialized 
+corpora can outperform much more complex models trained on much larger corpora 
+when we are specifically interested in capturing subtle conceptual differences 
+at the level of a single, narrowly focused course lecture or quiz question. On the other hand, if 
+our goal had been to choose a model that generalized to many different content 
+areas simultaneously, we would expect our LDA model to perform comparatively poorly to BERT or 
+other much larger general-purpose models. We suggest that bridging this tradeoff 
+between achieving high resolution within a single content area and the ability to 
+generalize to many diverse content areas will be an important challenge for 
+future work.
+
+At the opposite end of the spectrum from large language models, one could also
+imagine using an even \textit{simpler} ``model'' than LDA that relates the 
+contents of course lectures and quiz questions through explicit word-overlap 
+metrics (rather than similarities in the latent topics they exhibit). In a 
+supplementary analysis (Supp.~Fig.~\jaccard), we compared the LDA-based 
+question-lecture matches shown in Figure~\ref{fig:question-correlations} with
+analogous matches based on the Jaccard similarity between each question's text 
+and each sliding window from the corresponding lecture's transcript. As for 
+the embeddings derived from BERT, we found that this word-matching approach also blurred 
+meaningful distinctions between concepts presented in different parts of each 
+lecture and tested by different quiz questions. But rather than characterizing
+their contents at too \textit{broad} a semantic scale, the lack of specificity 
+in this approach arises from considering too \textit{narrow} a semantic scale: 
+the sorts of concepts typically conveyed in course lectures and tested by quiz 
+questions are not defined (and meaningful similarities and distinctions between 
+them do not tend to emerge) at the level of individual words.
+
+In other words, while the embedding spaces of more complex large language models 
+afford low resolution at the scale of individual course lectures and questions 
+because they ``zoom out'' too far, simpler word-matching measures afford low 
+resolution because they ``zoom \textit{in}'' too far. In this way, we view our 
+approach as occupying a sort of ``sweet spot'' between simpler and more complex 
+alternatives, in that it enables us to characterize the contents of course 
+materials at the appropriate semantic scale where relevant concepts ``come into 
+focus.'' Our approach enables us to accurately and consistently identify each 
+question's content in a way that matches it with specific content from the 
+lectures and distinguishes it from other questions about similar content. In 
+turn, this enables us to construct accurate predictions about participants' 
+knowledge of the conceptual content tested by individual quiz questions 
+(Fig.~\ref{fig:predictions}).
 
 Another application for large language models that does \textit{not} require
 explicitly modeling the content of individual lectures or questions is to
-leverage the models' abilities to generate text. For example, generative text
+leverage these models' abilities to generate text. For example, generative text
 models like ChatGPT~\citep{ChatGPT} and LLaMa~\citep{TouvEtal23} are already
 being used to build a new generation of interactive tutoring
 systems~\citep[e.g.,][]{MannEtal23b}. Unlike the approach we have taken here,
@@ -1072,41 +1033,8 @@ language model that can \textit{generate} text, combined with a smaller model
 that can \textit{infer} what learners know and how their knowledge changes over
 time. Such a hybrid system could potentially be used to build the next
 generation of interactive tutoring systems that are able to adapt to learners'
-needs in real time, and that are able to provide more nuanced feedback about
+needs in real time, and provide more nuanced feedback about
 what learners know and what they do not know.
-
-At the opposite end of the spectrum from large language models, one could also
-imagine \textit{simplifying} some aspects of our LDA-based approach by
-computing simple word overlap metrics. For example, the Jaccard similarity
-between text $A$ and $B$ is computed as the number of unique words in the
-intersection of words from $A$ and $B$ divided by the number of unique words in
-the union of words from $A$ and $B$. In a supplementary analysis (Supp.
-Fig.~\jaccard), we compared the LDA-based question-lecture matches we reported
-in Figure~\ref{fig:question-correlations} with the Jaccard similarities between
-each question and each sliding window of text from the corresponding lecture.
-As shown in Supplementary Figure~\jaccard, this simple word-matching approach
-does not appear to capture the same level of specificity as the LDA-based
-approach. Whereas the LDA-based approach often yields a clear peak in the
-time series of correlations between each question and the corresponding lecture,
-the Jaccard similarity-based approach does not. Furthermore, these LDA-based
-matches appear to capture conceptual overlaps between the questions and
-lectures (Supp.~Tab.~\matchTab), whereas simple word matching does not. For
-example, one of the example questions examined in Supplementary
-Figure~\jaccard~asks ``Which of the following occurs as a cloud of atoms gets
-more dense?'' The LDA-based matches identify lecture timepoints where the
-relevant \textit{topics} are discussed (e.g., when words like ``cloud,''
-``atom,'' ``dense,'' etc., are mentioned \textit{together}). The Jaccard
-similarity-based matches, on the other hand, are strong when \textit{any} of
-these words are mentioned, even if they do not occur together.
-
-We view our approach as occupying a sort of ``sweet spot,'' between much larger
-language models and simple word matching-based approaches, that enables us to
-capture the relevant conceptual content of course materials at an appropriate
-semantic scale. Our approach enables us to accurately and consistently identify
-each question's content in a way that also matches up with what is presented in
-the lectures. In turn, this enables us to construct accurate predictions about
-participants' knowledge of the conceptual content tested by held-out questions
-(Fig.~\ref{fig:predictions}).
 
 One limitation of our approach is that topic models contain no explicit
 internal representations of more complex aspects of ``knowledge,'' like
@@ -1116,7 +1044,7 @@ approach to more accurately and precisely capture, characterize, and track
 learners' knowledge. However, modeling these aspects of knowledge will likely
 require substantial additional research effort.
 
-Within the past several years, the global pandemic forced many educators to
+Within the past several years, a global pandemic forced many educators to
 suddenly adapt to teaching remotely~\citep{MoseEtal21, ShimLee20, KawaEtal21,
 Whal20}. This change in world circumstances is happening alongside (and perhaps
 accelerating) geometric growth in the availability of high-quality online
@@ -1240,13 +1168,13 @@ Early Math (1 participant), Arithmetic (1 participant), and other videos not
 listed in our survey (5 participants). In the ``Science and engineering'' area,
 participants reported having watched videos on Chemistry, AP Chemistry, or
 Organic Chemistry (21 participants); Physics, AP Physics I, or AP Physics II
-(18 participants); Biology, AP Biology; or High school Biology (15
-participants); Health and Medicine (1 participant); or other videos not listed
+(18 participants); Biology, AP Biology, or High school Biology (15
+participants); Health and Medicine (1 participant); and other videos not listed
 in our survey (5 participants). We also asked participants whether they had
 specifically seen the videos used in our experiment. Of the 45 participants who
 reported having having taken at least one Khan Academy course in the past, 44
 participants reported that they had not watched the \textit{Four Fundamental
-Forces} video, and 1 participant reported that they were not sure whether they
+Forces} video and 1 participant reported that they were not sure whether they
 had watched it. All participants reported that they had not watched the
 \textit{Birth of Stars} video. When we asked participants about non-Khan
 Academy online courses, they reported having watched or taken courses on
@@ -1258,7 +1186,7 @@ about in-person courses they had taken in different subject areas. They
 reported taking courses in Mathematics (38 participants), Science and
 engineering (37 participants), Arts and humanities (34 participants), Test
 preparation (27 participants), Economics and finance (26 participants),
-Computing (14 participants), College and careers (7 participants), or other
+Computing (14 participants), College and careers (7 participants), and other
 courses not listed in our survey (6 participants).
 
 
@@ -1280,12 +1208,12 @@ questions that tested for general conceptual knowledge about basic physics
 set of lecture-specific questions, our team worked through each lecture in
 small segments to identify what each segment was ``about'' conceptually, and
 then write a question about that concept. The general physics questions were
-drawn our team's prior coursework and areas of interest, along with internet
+drawn from our team's prior coursework and areas of interest, along with internet
 searches and brainstorming with the project team and other members of J.R.M.'s
 lab. Although we attempted to design the questions to test ``conceptual
 knowledge,'' we note that estimating the specific ``amount'' of conceptual
 understanding that each question ``requires'' to answer is somewhat subjective,
-and might even come down to the ``strategy'' a given participant uses to answer
+and might even come down to the ``strategy'' a given participant used to answer
 the question at that particular moment. The full set of questions and answer
 choices may be found in Supplementary Table~\questions.  The final set of
 questions (and response options) was reviewed and approved by J.R.M. before we
@@ -1310,8 +1238,8 @@ computational framework for estimating knowledge and learning.
 \subsubsection*{Statistics}
 
 All of the statistical tests performed in our study were two-sided. The 95\%
-confidence intervals we reported for each correlation were estimated by
-generating 10,000 bootstrap distributions of correlation coefficients by
+confidence intervals we report for each correlation were estimated from
+bootstrap distributions of 10,000 correlation coefficients obtained by
 sampling (with replacement) from the observed data.
 
 \subsubsection*{Constructing text embeddings of multiple lectures and questions}\label{subsec:topic-modeling}
@@ -1319,16 +1247,16 @@ sampling (with replacement) from the observed data.
 We adapted an approach we developed in prior work~\citep{HeusEtal21} to embed
 each moment of the two lectures and each question in our pool in a common
 representational space. Briefly, our approach uses a topic model~\citep[Latent
-Dirichlet Allocation; ][]{BleiEtal03} trained on a set of documents, to
+Dirichlet Allocation; ][]{BleiEtal03} trained on a set of documents to
 discover a set of $k$ ``topics'' or ``themes.'' Formally, each topic is
 defined as a distribution of weights over words in the model's vocabulary
-(i.e., the union of all unique words, across all documents, excluding ``stop
-words.''). Conceptually, each topic is intended to give larger weights to words
+(i.e., the union of all unique words across all documents, excluding ``stop
+words''). Conceptually, each topic is intended to give larger weights to words
 that are semantically related (as inferred from their tendency to co-occur in
 the same document). After fitting a topic model, each document in the training
 set, or any \textit{new} document that contains at least some of the words in
 the model's vocabulary, may be represented as a $k$-dimensional vector
-describing how much the document (most probably) reflects each topic. To select
+describing how much that document (most probably) reflects each topic. To select
 an appropriate $k$ for our model, as a starting point, we identified the
 minimum number of topics that yielded at least one ``unused'' topic (i.e., in
 which all words in the vocabulary were assigned uniform weights) after
@@ -1342,10 +1270,10 @@ weights over words in the vocabulary for each discovered topic is shown in
 Supplementary Figure~\topicWordWeights, and each topic's top-weighted words may
 be found in Supplementary Table~\topics.
 
-As illustrated in Figure~\ref{fig:sliding-windows}A, we start by building up a
-corpus of documents using overlapping sliding windows that span each video's
+As illustrated in Figure~\ref{fig:sliding-windows}A, we started by building up a
+corpus of documents using overlapping sliding windows that spanned each lecture's
 transcript. Khan Academy provides professionally created, manual transcriptions
-of all videos for closed captioning. However, such transcripts would not be
+of all lecture videos for closed captioning. However, such transcripts would not be
 readily available in all contexts to which our framework could potentially be
 applied. Khan Academy videos are hosted on the YouTube platform, which
 additionally provides automated captions. We opted to use these automated
@@ -1355,12 +1283,12 @@ studies; ][]{ZimaEtal18} when developing our framework in order to make
 it more directly extensible and adaptable by others in the future.
 
 We fetched these automated transcripts using the
-\texttt{youtube-transcript-api} Python package~\citep{Depo18}. The transcripts
+\texttt{youtube-transcript-api} Python package~\citep{Depo18}. Each transcript
 consisted of one timestamped line of text for every few seconds (mean: 2.34~s;
-standard deviation: 0.83~s) of spoken content in the video (i.e., corresponding
+standard deviation: 0.83~s) of spoken content in the lecture (i.e., corresponding
 to each individual caption that would appear on-screen if viewing the lecture
 via YouTube, and when those lines would appear). We defined a sliding window
-length of (up to) $w = 30$ transcript lines, and assigned each window a
+length of (up to) $w = 30$ transcript lines and assigned each window a
 timestamp corresponding to the midpoint between the timestamps for its first
 and last lines. This $w$ parameter was chosen to match the same number of words
 per sliding window (rounded to the nearest whole word, and before
@@ -1379,13 +1307,13 @@ stop word list with the following additional words, selected using one of the
 approaches suggested by~\citet{BoydEtal14}: ``actual,'' ``actually,'' ``also,''
 ``bit,'' ``could,'' ``e,'' ``even,'' ``first,'' ``follow,'' ``following,''
 ``four,'' ``let,'' ``like,'' ``mc,'' ``really,'', ``saw,'' ``see,'' ``seen,''
-``thing,'' and ``two.'' This yielded sliding windows with an average of 73.8
-remaining words, and lasting for an average of 62.22~seconds. We treated the
-text from each sliding window as a single ``document,'' and combined these
-documents across the two videos' windows to create a single training corpus for
+``thing,'' and ``two.'' This yielded sliding windows containing an average of 73.8
+remaining words, and spanning an average of 62.22~seconds. We treated the
+text from each sliding window as a single ``document'' and combined these
+documents across the two lectures' windows to create a single training corpus for
 the topic model.
 
-After fitting a topic model to the two videos' transcripts, we could use the
+After fitting the topic model to the two lectures' transcripts, we could use the
 trained model to transform arbitrary (potentially new) documents into
 $k$-dimensional topic vectors. A convenient property of these topic vectors is
 that documents that reflect similar blends of topics (i.e., documents that
@@ -1398,13 +1326,13 @@ similarity in conceptual content between the documents.
 We transformed each sliding window's text into a topic vector, and then used
 linear interpolation (independently for each topic dimension) to resample the
 resulting time series to one vector per second. We also used the fitted model to
-obtain topic vectors for each question in our pool (see Supp.~Tab.~\questions).
-Taken together, we obtained a \textit{trajectory} for each video, describing
+obtain topic vectors for each quiz question in our pool (see Supp.~Tab.~\questions).
+Taken together, we obtained a \textit{trajectory} for each lecture video, describing
 its path through topic space, and a single coordinate for each question
-(Fig.~\ref{fig:sliding-windows}C). Embedding both videos and all of the
+(Fig.~\ref{fig:sliding-windows}C). Embedding both lectures and all of the
 questions using a common model enables us to compare the content from different
-moments of videos, compare the content across videos, and estimate potential
-associations between specific questions and specific moments of video.
+moments of the lectures, compare the content across lectures, and estimate potential
+associations between specific questions and specific moments of lecture content.
 
 
 \subsubsection*{Estimating dynamic knowledge traces}\label{subsec:traces}
@@ -1421,22 +1349,22 @@ where
     \mathrm{ncorr}(x, y) = \frac{\mathrm{corr}(x, y) - \mathrm{mincorr}}{\mathrm{maxcorr} - \mathrm{mincorr}},
 \end{equation}
 and where $\mathrm{mincorr}$ and $\mathrm{maxcorr}$ are the minimum and maximum
-correlations between any lecture timepoint and question, taken over all
-timepoints in the given lecture, and all five questions \textit{about} that lecture appearing on the given quiz.
-We also define $f(s, \Omega)$ as the
+correlations between the topic vectors for any lecture timepoint and quiz question, taken over all
+timepoints in the given lecture and all questions \textit{about} that
+lecture appearing on the given quiz. We also define $f(s, \Omega)$ as the
 $s$\textsuperscript{th} topic vector from the set of topic vectors $\Omega$.
-Here $t$ indexes the set of lecture topic vectors, $L$, and $i$ and $j$ index
-the topic vectors of questions used to estimate the knowledge trace, $Q$. Note
-that ``correct'' denotes the set of indices of the questions the participant
-answered correctly on the given quiz.
+Here $t$ indexes the time series of lecture topic vectors $L$, and $i$ and $j$ index
+the topic vectors of questions $Q$ used to estimate the participant's knowledge. Note
+that ``$\mathrm{correct}$'' denotes the set of indices of the questions the
+participant answered correctly on the given quiz.
 
 Intuitively, $\mathrm{ncorr}(x, y)$ is the correlation between two topic
-vectors (e.g., the topic vector from one timepoint in a lecture, $x$, and the
-topic vector for one question, $y$), normalized by the minimum and maximum
-correlations (across all timepoints $t$ and questions $Q$) to range between 0
-and 1, inclusive. Equation~\ref{eqn:prop} then computes the weighted average
-proportion of correctly answered questions about the content presented at
-timepoint $t$, where the weights are given by the normalized correlations
+vectors (e.g., the topic vector $x$ for one timepoint in a lecture and the
+topic vector $y$ for one question on a quiz), normalized by the minimum and
+maximum correlations (across all timepoints $t$ and questions $j$) to range
+between 0 and 1, inclusive. Equation~\ref{eqn:prop} then computes the weighted
+average proportion of correctly answered questions about the content presented
+at timepoint $t$, where the weights are given by the normalized correlations
 between timepoint $t$'s topic vector and the topic vectors for each question.
 The normalization step (i.e., using $\mathrm{ncorr}$ instead of the raw
 correlations) ensures that every question contributes some non-negative amount
@@ -1446,7 +1374,7 @@ to the knowledge estimate.
 
 In the set of analyses reported in Figure~\ref{fig:predictions}, we assessed
 whether estimates of participants' knowledge at the embedding coordinates of
-individual quiz questions could be used to reliably predict their ability to
+individual quiz questions could be used to reliably predict their abilities to
 correctly answer those questions. In essence, we treated each question a given
 participant answered on a given quiz as a ``lecture'' consisting of a single
 timepoint, and used Equation~\ref{eqn:prop} to estimate the participant's
@@ -1454,21 +1382,93 @@ knowledge for its embedding coordinate based on their performance on all
 \textit{other} questions they answered on that same quiz (``All questions'';
 Fig.~\ref{fig:predictions}, top row). Additionally, for each lecture-related
 question (i.e., excluding questions about general physics knowledge), we
-computed analogous knowledge estimates based on all other questions the
-participant answered on the same quiz about (1) the same lecture as the target
-question (``Within-lecture''; Fig.~\ref{fig:predictions}, middle rows), and (2)
-the other of the two lectures (``Across-lecture''; Fig.~\ref{fig:predictions},
+computed analogous knowledge estimates based on two different subsets of
+questions the participant answered on the same quiz: (1) all \textit{other}
+questions about the same lecture as the target question (``Within-lecture'';
+Fig.~\ref{fig:predictions}, middle rows), and (2) all questions about the other
+of the two lectures (``Across-lecture''; Fig.~\ref{fig:predictions},
 bottom rows).
+
+In performing these analyses, our null hypothesis is that the knowledge
+estimates we compute based on the quiz questions' embedding coordinates do
+\textit{not} provide useful information about participants' abilities to correctly answer
+those questions---in other words, that there is no meaningful difference (on
+average) between the knowledge estimates we compute for questions participants
+answered correctly versus incorrectly. Specifically, since we
+estimate knowledge for a given embedding coordinate as a weighted
+proportion-correct score (where each question's weight reflects its
+embedding-space distance from the target coordinate; see Eqn.~\ref{eqn:prop}),
+if these weights are uninformative (e.g., randomly distributed), then our
+estimates of participants' knowledge should be equivalent (on average) to the
+\textit{unweighted} proportion of correctly answered questions used to compute
+them. In general, for a given participant and quiz, this expected null value (i.e.,
+that participant's proportion-correct score on that quiz) is the same for any
+coordinate in the embedding space (e.g., any lecture timepoint, quiz question,
+etc.). However, in the ``All questions'' and ``Within-lecture'' versions of the
+analyses shown in Figure~\ref{fig:predictions}, we estimate each participant's
+knowledge for each target question using all \textit{other} questions (or all
+\textit{other} questions about the same lecture) they answered on the same quiz.
+This introduces a systematic dependency between a participant's success on a
+target question and their proportion-correct score on the remaining questions
+available to estimate their knowledge for it. For example, suppose a participant
+correctly answered $n$ out of $q$ questions on a given quiz. If we hold out a
+single \textit{correctly} answered question as the target, the proportion of
+remaining questions answered correctly would be $\frac{n - 1}{q - 1}$, whereas
+if we hold out a single \textit{incorrectly} answered question, the proportion
+of remaining questions answered correctly would be $\frac{n}{q - 1}$. Thus, the
+proportion of correctly answered remaining questions (and therefore the
+null-hypothesized value of a knowledge estimate computed from them) is always
+\textit{lower} for target questions a participant answered correctly than for
+those they answered incorrectly.
+
+To correct for this baseline difference under our null hypothesis, we used a
+rebalancing procedure that ensured our knowledge estimates for questions each
+participant answered correctly and incorrectly were computed from the
+\textit{same} proportion of correctly answered questions. For each target
+question on a given participant's quiz, we first identified all remaining questions
+with the opposite ``correctness'' label (i.e., if the target question was
+answered correctly, we identified all remaining incorrectly answered questions,
+and vice versa). We then held out each of these opposite-label questions, in
+turn, along with the target question, and estimated the participant's knowledge
+for the target question using all \textit{other} remaining questions. Since each
+of these subsets of remaining questions was constructed by holding out one
+correctly answered question and one incorrectly answered question from the
+participant's quiz responses, if the participant correctly answered $n$ out of $q$
+questions total, then their proportion-correct score on each subset of questions
+used to estimate their knowledge would be $\frac{n-1}{q-2}$,
+regardless of whether they answered the target question correctly or
+incorrectly. Finally, we averaged over these per-subset knowledge estimates
+to obtain a rebalanced estimate of the participant's knowledge for the target
+question that leveraged information from all remaining questions' embedding
+coordinates, but whose expected value under our null hypothesis was the same as
+that of each individual subset ($\frac{n-1}{q-2}$). By equalizing the
+null-hypothesized values of knowledge estimates for correctly and incorrectly
+answered questions, this procedure ensures that any meaningful relationships we
+observe between participants' estimated knowledge for individual quiz questions
+and their abilities to correctly answer them reflect the predictive
+power of the embedding-space distances we use to weight questions' contributions
+to the knowledge estimates, rather than an artifact of our testing procedure.
+Note that if a participant answered all or no questions on a given quiz
+correctly, their responses contained no opposite-label questions with which to
+perform this rebalancing, and we therefore excluded their data from our analyses
+for that quiz. We used this rebalancing procedure when constructing knowledge
+estimates for the ``All questions'' and ``Within-lecture'' versions of the
+analyses shown in Figure~\ref{fig:predictions}, but not for the
+``Across-lecture'' analyses as, in this case, the target questions and the
+questions used to estimate participants' knowledge for them were drawn from
+different subsets of quiz questions (those about one lecture, and those about
+the other), and were therefore independent.
 
 In each version of this analysis (i.e., row in Fig.~\ref{fig:predictions}), and
 separately for each of the three quizzes (i.e., column in
 Fig.~\ref{fig:predictions}), we then fit a generalized linear mixed model
 (GLMM) with a logistic link function to the set of knowledge estimates for all
-questions that participants answered on the given quiz. We implemented these
-models in \texttt{R} using the \texttt{lme4} package~\citep{BateEtal15a} and
-fit them following guidance from~\citet{BateEtal15b} and \citet{MatuEtal17}.
-Specifically, we initially fit each model with the maximal random effects
-structure afforded by our design, which we identified as:
+questions (or all questions about a particular lecture) that participants
+answered on the given quiz. We implemented these models in \texttt{R} using the
+\texttt{lme4} package~\citep{BateEtal15a} and fit them following guidance
+from~\citet{BateEtal15b} and \citet{MatuEtal17}. Specifically, we initially fit
+each model with the maximal random effects structure afforded by our design,
+which we identified as:
 \[
     \mathtt{accuracy \sim knowledge + (knowledge\ \vert\ participant) + (knowledge\ \vert\ question)}
 \]
@@ -1484,27 +1484,42 @@ $\mathtt{(knowledge\ \vert\ lecture)}$, where ``\texttt{lecture}'' is a
 categorical value denoting whether the target question was about \textit{Four
 Fundamental Forces}, \textit{Birth of Stars}, or general physics knowledge.
 Note that with our coding scheme, identifiers for each \texttt{question} are
-implicitly nested within levels of \texttt{lecture} and do not require explicit
-nesting in our model formula. We then iteratively removed random effects from 
-the maximal model until it successfully converged with a full rank (i.e., non-singular) 
-random effects variance-covariance matrix.
+implicitly nested within levels of \texttt{lecture} and so do not require
+explicit nesting in our model formula. We then iteratively removed random
+effects from the maximal model until it successfully converged with a full-rank
+random effects variance-covariance matrix. We obtained the odds ratios reported
+in Figure~\ref{fig:predictions} by exponentiating the estimated coefficient for
+``\texttt{knowledge}'' from each fitted model. Conceptually, these odds ratios
+represent how many times greater the odds are that a given participant will
+answer a given question correctly if their estimated knowledge for its embedding
+coordinate is 1, compared to if it is 0. We estimated 95\% confidence intervals
+for each odds ratio by generating 10,000 random subsamples (of full size, with
+replacement) from the data used to fit each model, and refitting the models to
+each subsample to obtain bootstrap distributions of 10,000 odds ratios.
 
 To assess the predictive value of our knowledge estimates, we compared each
-GLMM's ability to discriminate between correctly and incorrectly answered
-questions to that of an analogous model that did \textit{not} consider estimated
-knowledge. Specifically, we used the same sets of observations with which we
-fit each ``full'' model to fit a second ``null'' model, with the formula:
-\[
-    \mathtt{accuracy \sim (1\ \vert\ participant) + (1\ \vert\ question)}
-\]
-where ``\texttt{accuracy}'', ``\texttt{participant}'', and ``\texttt{question}'' are as defined above. 
-As with our full models, the null models we fit for the “All questions” version of the analysis for each quiz contained an additional term, $\mathtt{(1\ \vert\ lecture)}$, where ``\texttt{lecture}'' is as defined above. 
-We then compared each full model to its reduced (null) equivalent using a likelihood-ratio test (LRT). 
-Because the typical asymptotic $\chi^2_d$ approximation of the null distribution for the LRT statistic ($\lambda_{LR}$) is anti-conservative for models that differ in their random slope terms~\citep{GoldSimo00,ScheEtal08b,SnijBosk11}, we computed $p$-values for these tests using a parametric bootstrap procedure~\citep{DaviHink97,HaleHojs14}. 
-For each of 1,000 bootstraps, we used the fitted null model to simulate a sample of observations of equal size to our original sample.
-We then re-fit both the null and full models to this simulated sample and compared them via an LRT.
-This yielded a distribution of $\lambda_{LR}$ statistics we may expect to observe under our null hypothesis.
-Following~\citet{Ewen03}, we computed a corrected $p$-value for our observed $\lambda_{LR}$ as $\frac{r}{n}$, where $r$ is the number of simulated model comparisons that yielded a $\lambda_{LR}$ greater than or equal to our observed value and $n$ is the number of simulations we ran (1,000).
+GLMM's ability to explain participants' success on individual quiz questions to
+that of an analogous model which assumed (as we assume under our null
+hypothesis) that knowledge estimates for correctly and incorrectly answered
+questions did \textit{not} systematically differ, on average. Specifically, we
+used the same sets of observations to which we fit each ``full'' model to fit
+a second ``null'' model with the same random effects structure, but with
+the coefficient for the fixed effect of ''\texttt{knowledge}'' constrained to zero
+(i.e., we removed this term from the null model). We then compared each full
+model to its reduced (null) equivalent using a likelihood-ratio test (LRT).
+Because the standard asymptotic $\chi^2_d$ approximation of the null
+distribution for the LRT statistic ($\lambda_{LR}$) can be anti-conservative for
+finite sample sizes~\citep{GoldSimo00,ScheEtal08b,SnijBosk11}, we computed
+$p$-values for these tests using a parametric bootstrap
+procedure~\citep{DaviHink97,HaleHojs14}. For each of 10,000 bootstraps, we used
+the fitted null model to simulate a sample of observations of equal size to our
+original sample. We then re-fit both the null and full models to this simulated
+sample and compared them via an LRT. This yielded a distribution of
+$\lambda_{LR}$ statistics we may expect to observe given data that conforms to
+our null hypothesis. We computed a corrected $p$-value for our observed
+$\lambda_{LR}$ as $\frac{r+1}{n+1}$, where $r$ is the number of simulated model
+comparisons that yielded a $\lambda_{LR}$ greater than our observed value and
+$n$ is the number of simulations we ran (10,000).
 
 \subsubsection*{Estimating the ``smoothness'' of knowledge}\label{subsec:smoothness}
 
@@ -1534,12 +1549,12 @@ Next, for each participant in the current subsample, and for each of the three
 quizzes they completed (separately), we iteratively treated each of the 15
 questions appearing on the given quiz as the ``reference'' question. We
 constructed a series of concentric 15-dimensional ``spheres'' centered on the
-reference question's embedding space coordinate, where each successive sphere's
+reference question's embedding-space coordinate, where each successive sphere's
 radius increased by 0.01 (correlation distance) between 0 and 2, inclusive
 (i.e., tiling the range of possible correlation distances with 201 spheres in
 total). We then computed the proportion of questions enclosed within each
 sphere that the participant answered correctly, and averaged these per-radius
-proportion correct scores across reference questions that were answered
+proportion-correct scores across reference questions that were answered
 correctly, and those that were answered incorrectly. This resulted in two
 number-of-spheres sequences of proportion-correct scores for each subsample
 participant and quiz: one derived from correctly answered reference questions,
@@ -1551,7 +1566,7 @@ yielded two sequences of proportion-correct scores for each quiz, analogous to
 the blue and red lines displayed in Figure~\ref{fig:smoothness}A, but for the
 present subsample. For each quiz, we then found the minimum distance from the
 reference question (i.e., sphere radius) at which each of these two sequences
-of per-radius proportion correct scores intersected the 95\% confidence
+of per-radius proportion-correct scores intersected the 95\% confidence
 interval for the overall proportion correct (i.e., analogous to the black error
 bands in Fig.~\ref{fig:smoothness}A).
 
@@ -1565,7 +1580,7 @@ Figure~\ref{fig:smoothness}B.
 \subsubsection*{Creating knowledge and learning map visualizations}\label{subsec:knowledge-maps}
 
 An important feature of our approach is that, given a trained text embedding
-model and participants' quiz performance on each question, we can estimate
+model and participants' performance on each quiz question, we can estimate
 their knowledge about \textit{any} content expressible by the embedding
 model---not solely the content explicitly probed by the quiz questions, or even
 appearing in the lectures. To visualize these estimates
@@ -1605,7 +1620,7 @@ inverting an arbitrary coordinate in the embedding space might result in
 negative-valued vectors, which are incompatible with the topic modeling
 framework. To protect against this issue, we log-transformed the topic vectors
 prior to embedding them in the 2D space. When we inverted the embedded vectors
-(e.g., to estimate topic vectors or word clouds, as in
+(e.g., to estimate topic vectors for word clouds, as in
 Fig.~\ref{fig:knowledge-maps}C), we passed the inverted (log-transformed)
 values through the exponential function to obtain a vector of non-negative
 values, and normalized them to sum to one.
@@ -1620,7 +1635,7 @@ knowledge) at each of the resulting 10,000 coordinates.
 To generate our estimates, we placed a set of 39 radial basis functions (RBFs)
 throughout the embedding space, centered on the 2D projections for each
 question (i.e., we included one RBF for each question). At coordinate $x$, the
-value of an RBF centered on a question's coordinate $\mu$, is given by:
+value of an RBF centered on a question's coordinate $\mu$ is given by:
 \begin{equation}
     \mathrm{RBF}(x, \mu, \lambda) = \exp\left\{-\frac{||x - \mu||^2}{\lambda}\right\}.
     \label{eqn:rbf}
@@ -1633,11 +1648,12 @@ at each coordinate, $x$, using:
     \hat{k}(x) = \frac{\sum_{i \in \mathrm{correct}} \mathrm{RBF}(x, q_i, \lambda)}{\sum_{j = 1}^N \mathrm{RBF}(x, q_j, \lambda)}.
     \label{eqn:rbf-knowledge}
 \end{equation}
-Intuitively, Equation~\ref{eqn:rbf-knowledge} computes the weighted proportion of
-correctly answered questions, where the weights are given by how nearby (in the 2D space)
-each question is to the $x$.  We also defined \textit{learning maps} as the coordinate-by-coordinate
-differences between any pair of knowledge maps.  Intuitively, learning maps reflect the \textit{change}
-in knowledge across two maps.
+Equation~\ref{eqn:rbf-knowledge} computes the weighted proportion of correctly
+answered questions, where the weights are given by how nearby (in the 2D space)
+each question is to the $x$. We also defined \textit{learning maps} as the
+coordinate-by-coordinate differences between any pair of knowledge maps.
+Intuitively, learning maps reflect the \textit{change} in knowledge
+across two maps.
 
 \section*{Author contributions}
 

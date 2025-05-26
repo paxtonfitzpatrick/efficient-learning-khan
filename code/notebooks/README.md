@@ -20,6 +20,6 @@ analyses are described or figures appear in the paper.
 - `2_topic-word-distributions-fig.ipynb` &ndash; code to generate Supplementary Figure 1
 - `3_topic-weight-fig.ipynb` &ndash; code to generate Supplementary Figure 2 and compute related stats
 - `4_lecture-question-correlation-peaks.ipynb` &ndash; code to generate Supplementary Figures 3 & 4
-- `5_model-comparison-word-overlap.ipynb` &ndash; code to generate Supplementary Figure 5
-- `6_model-comparison-BERT.ipynb` &ndash; code to generate Supplementary Figure 6
-- `7_individual-maps.ipynb` &ndash; code to generate Supplementary Figures 7&ndash;11
+- `5_individual-maps.ipynb` &ndash; code to generate Supplementary Figures 5&ndash;9
+- `6_model-comparison-BERT.ipynb` &ndash; code to generate Supplementary Figure 10
+- `7_model-comparison-word-overlap.ipynb` &ndash; code to generate Supplementary Figure 11
